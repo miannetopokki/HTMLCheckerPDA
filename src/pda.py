@@ -1,5 +1,5 @@
 class PDA:
-    def __init__(self, states, input_alphabet, stack_alphabet, transition, start_state, initial_stack_symbol, accepting_states):
+    def __init__(self, states, input_alphabet, stack_alphabet, transition, start_state, initial_stack_symbol):
         self.states = states
         self.input_alphabet = input_alphabet
         self.stack_alphabet = stack_alphabet
@@ -8,14 +8,11 @@ class PDA:
         self.current_state = start_state
         self.initial_stack_symbol = initial_stack_symbol
         self.stack = [initial_stack_symbol]
-        self.accepting_states = accepting_states
 
     def is_accepted(self):
-        return self.current_state in self.accepting_states or (self.current_state, '', self.stack[-1]) in self.transition
-
+        return not self.stack
     def process_input(self, input_string):
         for symbol in input_string:
-            
             if (self.current_state, symbol, self.stack[-1]) in self.transition:
                 next_state, pop_symbol, push_symbols = self.transition[(self.current_state, symbol, self.stack[-1])]
 
@@ -31,7 +28,7 @@ class PDA:
 
                 # Push simbol-simbol ke stack
                 if push_symbols != 'ε':
-                    self.stack.append(push_symbols)
+                    self.stack.extend(push_symbols)
 
                 # Print stack setiap kali berubah
                 print(f"Current State: {self.current_state}, Current Stack: {''.join(self.stack)}")
@@ -39,12 +36,11 @@ class PDA:
             else:
                 print(f"Error: No transition for ({self.current_state}, {symbol}, {self.stack[-1]}).")
                 return False
+        popped = self.stack.pop()
+        if(popped != initial_stack_symbol):
+            return False
 
-        # Setelah membaca seluruh input, periksa apakah stack kosong
-      
-    
         return self.is_accepted()
-
 
 # Contoh penggunaan
 states = {'q0', 'q1', 'q2'}
@@ -59,9 +55,8 @@ transition = {
 }
 start_state = 'q0'
 initial_stack_symbol = 'Z'
-accepting_states = {'q2'}
 
-pda = PDA(states, input_alphabet, stack_alphabet, transition, start_state, initial_stack_symbol, accepting_states)
+pda = PDA(states, input_alphabet, stack_alphabet, transition, start_state, initial_stack_symbol)
 
 input_string = 'aabb'
 result = pda.process_input(input_string)
