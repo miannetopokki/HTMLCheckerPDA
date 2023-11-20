@@ -20,8 +20,13 @@ class PDA:
                 # Pindah ke state berikutnya
                 self.current_state = next_state
 
+                if (symbol == ''):
+                    popped = self.stack.pop()
+                    if popped != pop_symbol:
+                        print(f"Error: Expected '{pop_symbol}' on top of stack, but got '{popped}'.")
+                        return False
                 # Pop simbol dari stack
-                if pop_symbol != 'ε':
+                if pop_symbol != 'ε' :
                     popped = self.stack.pop()
                     if popped != pop_symbol:
                         print(f"Error: Expected '{pop_symbol}' on top of stack, but got '{popped}'.")
@@ -35,9 +40,9 @@ class PDA:
                 print(f"Current State: {self.current_state}")
                 print(self.stack)
             else:
-                # if (self.current_state != 'q1'): #coba coba 
-                print(f"Error: No transition for ({self.current_state}, {symbol}, {self.stack[-1]}).")
-                return False
+                if (self.current_state != 'qbody'or self.current_state != "qhref"):  
+                    print(f"Error: No transition for ({self.current_state}, {symbol}, {self.stack[-1]}).")
+                    return False
 
 
         popped = self.stack.pop()
@@ -46,59 +51,116 @@ class PDA:
         print(self.stack)
         return self.is_accepted()
 
+
 # Contoh penggunaan
 states = {'q0', 'q1', 'q2','end','endhead'} #q0 start alias html #q1 kondisi dalam html
 input_alphabet = {'<','h','t','m','l','>','/'}
 stack_alphabet = {'Z', '1'}
 transition = {
-    ('q0', '<', 'Z'): ('q0', 'ε', '<'),
-    ('q0', 'h', '<'): ('q0', 'ε', 'h'),
-    ('q0', 't', 'h'): ('q0', 'ε', 't'),
-    ('q0', 'm', 't'): ('q0', 'ε', 'm'),
-    ('q0', 'l', 'm'): ('q0', 'ε', 'l'),
-    ('q0', '>', 'l'): ('q1', 'ε', '>'),
+            ('q0', '<', 'Z'): ('q0', 'ε', '<'),
+            ('q0', 'h', '<'): ('q0', 'ε', 'h'),
+            ('q0', 't', 'h'): ('q0', 'ε', 't'),
+            ('q0', 'm', 't'): ('q0', 'ε', 'm'),
+            ('q0', 'l', 'm'): ('q0', 'ε', 'l'),
+            ('q0', '>', 'l'): ('qcek', 'ε', '>'),
+
+    
+            ('endbody', '<', '>'): ('qslash', '>', 'ε'),
+            ('qslash', '/', 'l'): ('endhtml', 'ε', 'ε'),
+            ('endhtml', 'h', 'l'): ('endhtml', 'l', 'ε'),
+            ('endhtml', 't', 'm'): ('endhtml', 'm', 'ε'),
+            ('endhtml', 'm', 't'): ('endhtml', 't', 'ε'),
+            ('endhtml', 'l', 'h'): ('endhtml', 'h', 'ε'),
+            ('endhtml', '>', '<'): ('qhtml', '<', 'ε'),
+            ('qhtml', 'Z', 'ε'): ('qhtml', 'ε', 'ε'),
 
 
-    ('q1', '<', '>'): ('cek', '>', '>'), # gk berubah
+
+            #BODY
+            ('qcek', '<', '>'): ('qcek', 'ε', '<'),
+            ('qcek', 'b', '<'): ('qbody', 'ε', 'b'),
+            ('qbody', 'o', 'b'): ('qbody', 'ε', 'o'),
+            ('qbody', 'd', 'o'): ('qbody', 'ε', 'd'),
+            ('qbody', 'y', 'd'): ('qbody', 'ε', 'y'),
+            ('qbody', '>', 'y'): ('qbody', 'ε', '>'),
+
+            ('qbody', '<', '>'): ('qslash', '>', 'ε'),
+            ('qslash', '/', 'y'): ('endbody', 'ε', 'ε'),
+            ('endbody', 'b', 'y'): ('endbody', 'y', 'ε'),
+            ('endbody', 'o', 'd'): ('endbody', 'd', 'ε'),
+            ('endbody', 'd', 'o'): ('endbody', 'o', 'ε'),
+            ('endbody', 'y', 'b'): ('endbody', 'b', 'ε'),
+            ('endbody', '>', '<'): ('endbody', '<', 'ε'),
 
 
-    #html to /html q1 -> end
-    ('cek','/','>') : ('end','>','ε'),
-    ('end','h','l') : ('end','l','ε'),
-    ('end','t','m') : ('end','m','ε'),
-    ('end','m','t') : ('end','t','ε'),
-    ('end','l','h') : ('end','h','ε'),
-    ('end','>','<') : ('end','<','ε'),
+            #HEAD
+            ('qcek', '<', '>'): ('qcek', 'ε', '<'),
+            ('qcek', 'h', '<'): ('qhead', 'ε', 'h'),
+            ('qhead', 'e', 'h'): ('qhead', 'ε', 'e'),
+            ('qhead', 'a', 'e'): ('qhead', 'ε', 'a'),
+            ('qhead', 'd', 'a'): ('qhead', 'ε', 'd'),
+            ('qhead', '>', 'd'): ('qhead', 'ε', '>'),
+
+            ('qhead', '<', '>'): ('qslash', '>', 'ε'),
+            ('qslash', '/', 'd'): ('endhead', 'ε', 'ε'),
+            ('endhead', 'h', 'd'): ('endhead', 'd', 'ε'),
+            ('endhead', 'e', 'a'): ('endhead', 'a', 'ε'),
+            ('endhead', 'a', 'e'): ('endhead', 'e', 'ε'),
+            ('endhead', 'd', 'h'): ('endhead', 'h', 'ε'),
+            ('endhead', '>', '<'): ('qcek', '<', 'ε')
+
+         
+}
 
 
-    #html to head q1 -> q2
-    ('cek','h','>') : ('q2','ε','<h'),
-    ('q2','e','h') : ('q2','ε','e'),
-    ('q2','a','e') : ('q2','ε','a'),
-    ('q2','d','a') : ('q2','ε','d'),
-    ('q2','>','d') : ('q2','ε','>'),
+    # ('q1', '<', '>'): ('cek', '>', '>'), # gk berubah
+
+
+    # #html to /html q1 -> end
+    # ('cek','/','>') : ('end','>','ε'),
+    # ('end','h','l') : ('end','l','ε'),
+    # ('end','t','m') : ('end','m','ε'),
+    # ('end','m','t') : ('end','t','ε'),
+    # ('end','l','h') : ('end','h','ε'),
+    # ('end','>','<') : ('end','<','ε'),
+
+
+    # #html to head q1 -> q2
+    # ('cek','h','>') : ('q2','ε','<h'),
+    # ('q2','e','h') : ('q2','ε','e'),
+    # ('q2','a','e') : ('q2','ε','a'),
+    # ('q2','d','a') : ('q2','ε','d'),
+    # ('q2','>','d') : ('q2','ε','>'),
   
 
+    # #head q2 to end head -> balik ke q1(didalam html)
+    # ('q2','<','>') : ('q2','>','>'),
+    # ('q2','/','>') : ('endhead','>','ε'),
+    # ('endhead','h','d') : ('endhead','d','ε'),
+    # ('endhead','e','a') : ('endhead','a','ε'),
+    # ('endhead','a','e') : ('endhead','e','ε'),
+    # ('endhead','d','h') : ('endhead','h','ε'),
+    # ('endhead','>','<') : ('q1','<','ε'),
 
+    # #head to body
+    # ('cek','h','>') : ('q2','ε','<h'),
+    # ('q2','e','h') : ('q2','ε','e'),
+    # ('q2','a','e') : ('q2','ε','a'),
+    # ('q2','d','a') : ('q2','ε','d'),
+    # ('q2','>','d') : ('q2','ε','>'),
+  
 
-    #head q2 to end head -> balik ke q1(didalam html)
-    ('q2','<','>') : ('q2','>','>'),
-    ('q2','/','>') : ('endhead','>','ε'),
-    ('endhead','h','d') : ('endhead','d','ε'),
-    ('endhead','e','a') : ('endhead','a','ε'),
-    ('endhead','a','e') : ('endhead','e','ε'),
-    ('endhead','d','h') : ('endhead','h','ε'),
-    ('endhead','>','<') : ('q1','<','ε'),
+    # #body to endbody
+    # ('q2','<','>') : ('q2','>','>'),
+    # ('q2','/','>') : ('endhead','>','ε'),
+    # ('endhead','h','d') : ('endhead','d','ε'),
+    # ('endhead','e','a') : ('endhead','a','ε'),
+    # ('endhead','a','e') : ('endhead','e','ε'),
+    # ('endhead','d','h') : ('endhead','h','ε'),
+    # ('endhead','>','<') : ('q1','<','ε'),
     
     
-    
-
-    
-
-
-
-    ('q1', '', 'Z'): ('q2', 'ε', 'ε'),  # Penambahan transisi untuk membaca epsilon saat stack kosong
-}
+    # ('q1', '', 'Z'): ('q2', 'ε', 'ε'),  # Penambahan transisi untuk membaca epsilon saat stack kosong
 start_state = 'q0'
 initial_stack_symbol = 'Z'
 

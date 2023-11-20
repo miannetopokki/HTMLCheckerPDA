@@ -1,0 +1,46 @@
+Q P F # total states
+a # input word symbols
+Z Y # stack symbols
+Q # starting state
+Z # starting stack
+E # accepting states
+F # E - accepts with empty stack or F - accepts with accepting state
+   
+   
+   
+   
+   
+   #HTML
+    qo < Y qo <Y
+    qo h < qo h<
+    qo t h qo th
+    qo m t qo mt
+    qo l m qo lm
+    qo > l qhtml X>l
+
+
+    qbody < > qslash ε
+    qslash / l qbody l
+    qbody h l qbody ε
+    qbody t m qbody ε
+    qbody m t qbody ε
+    qbody l h qbody ε
+    qbody > < qhtml ε
+
+
+
+    #BODY
+    qhtml < X qhtml <X
+    qhtml b < qbody b<
+    qbody o b qbody ob
+    qbody d o qbody do
+    qbody y d qbody yd
+    qbody > y qbody >y
+
+    qbody <  > qslash ε
+    qslash / y qbody y
+    qbody y y qbody ε
+    qbody d d qbody ε
+    qbody o o qbody ε
+    qbody b b qbody ε
+    qbody > < qbody ε
