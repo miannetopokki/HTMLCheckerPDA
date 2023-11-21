@@ -42,7 +42,8 @@ class PDA:
                 print(self.stack)
             else:
                 if (self.current_state != 'qpetikbody' and self.current_state != 'qpetikhead'and self.current_state != 'qpetikhtml'
-                    and self.current_state != 'qpetiktitle' and self.current_state != 'qpetiklinkhead' and self.current_state != 'qkutiplinkhead'):   #Handler ignorance
+                    and self.current_state != 'qpetiktitle' and self.current_state != 'qpetiklinkhead' and self.current_state != 'qkutiplinkhead'
+                     and self.current_state != 'qdiv'):   #Handler ignorance
                     print(f"Error: No transition for ({self.current_state}, {symbol}, {self.stack[-1]}).")
                     return False
                 
@@ -57,10 +58,12 @@ class PDA:
 
 # Contoh penggunaan
 states = {'q0','qcek','qhead','endhtml','qatrhtml','qclasshtml','qpetikhtml','qidhtml','qstylehtml'
-          ,'qatrbody','qclassbody','qpetikbody','qstylebody','qidbody','qbody','endbody',
+          ,'qatrbody','qclassbody','qpetikbody','qstylebody','qidbody','qbody','endbody','qcekbody',
           'qatrhead','qclasshead','qpetikhead','qidhead','qstylehead,','qcekhead','endhead',
           'qtitle','qatrtitle','endtitle','qclasstitle','qstyletitle','qidtitle','qpetiktitle'
-          ,'qlinkhead','qatrlinkhead','qkutiplinkhead','qclasslinkhead','qstylelinkhead','qidlinkhead','qhreflinkhead','qpetiklinkhead'} 
+          ,'qlinkhead','qatrlinkhead','qkutiplinkhead','qclasslinkhead','qstylelinkhead','qidlinkhead','qhreflinkhead','qpetiklinkhead',
+          'qscript','qatrscript','qpetikscript','qclassscript','qidscript','qstylescript','endscript','qsrcscript',
+          'qdiv','qatrdiv','enddiv','qpetikdiv','qclassdiv','qiddiv','qstylediv'} 
 input_alphabet = {'<','h','t','m','l','>','/'}
 stack_alphabet = {'Z', '1'}
 transition = {
@@ -114,26 +117,28 @@ transition = {
 
 
             #==============================BODY==============================
+          
             ('qcek',' ','>'):('qcek','ε','ε'),
             ('qcek', '<', '>'): ('qcek', 'ε', '<'),
             ('qcek', 'b', '<'): ('qbody', 'ε', 'b'),
             ('qbody', 'o', 'b'): ('qbody', 'ε', 'o'),
             ('qbody', 'd', 'o'): ('qbody', 'ε', 'd'),
             ('qbody', 'y', 'd'): ('qbody', 'ε', 'y'),
-            ('qbody', '>', 'y'): ('qbody', 'ε', 'X>'),
+            ('qbody', '>', 'y'): ('qcekbody', 'ε', 'X>'),
             ('qbody',' ','y'): ('qatrbody','ε','X'),
             ('qatrbody',' ','X') : ('qatrbody', 'ε' , 'ε'), #handler spasi di atribute
-            ('qatrbody', '>', 'X'): ('qbody', 'ε', '>'),
+            ('qatrbody', '>', 'X'): ('qcekbody', 'ε', '>'),
+            ('qcekbody', ' ', '>'): ('qcekbody', 'ε', 'ε'),
 
-            ('qbody',' ','>') : ('qbody','ε','ε'),
-            ('qbody', '<', '>'): ('qbody', '>', 'ε'),
-            ('qbody', '/', 'X'): ('endbody', 'X', 'ε'),
-            ('endbody', 'b', 'y'): ('endbody', 'y', 'ε'),
-            ('endbody', 'o', 'd'): ('endbody', 'd', 'ε'),
-            ('endbody', 'd', 'o'): ('endbody', 'o', 'ε'),
-            ('endbody', 'y', 'b'): ('endbody', 'b', 'ε'),
-            ('endbody', '>', '<'): ('endbody', '<', 'ε'),
-            ('endbody', ' ', '>'): ('endbody', 'ε', 'ε'),
+            ('qcekbody','/','>') : ('endbody','>','ε'),
+            ('endbody', 'b', 'X'): ('endbody', 'X', 'ε'),
+            ('endbody', 'o', 'y'): ('endbody', 'y', 'ε'),
+            ('endbody', 'd', 'd'): ('endbody', 'd', 'ε'),
+            ('endbody', 'y', 'o'): ('endbody', 'o', 'ε'),
+            ('endbody', '>', 'b'): ('endbody', 'b', 'ε'),
+            ('endbody', ' ', '<'): ('endbody', '<', 'ε'),
+         
+          
 
             #Q Attribute Body
             ('qatrbody','c','X') : ('qclassbody','ε', 'c'),
@@ -160,6 +165,52 @@ transition = {
             ('qidbody','"','X') : ('qpetikbody','ε','"'),
             ('qpetikbody','"','"') : ('qatrbody' , '"','ε'),
 
+            # ('qcek',' ','>'):('qcek','ε','ε'),
+            # ('qcek', '<', '>'): ('qcek', 'ε', '<'),
+            # ('qcek', 'b', '<'): ('qbody', 'ε', 'b'),
+            # ('qbody', 'o', 'b'): ('qbody', 'ε', 'o'),
+            # ('qbody', 'd', 'o'): ('qbody', 'ε', 'd'),
+            # ('qbody', 'y', 'd'): ('qbody', 'ε', 'y'),
+            # ('qbody', '>', 'y'): ('qbody', 'ε', 'X>'),
+            # ('qbody',' ','y'): ('qatrbody','ε','X'),
+            # ('qatrbody',' ','X') : ('qatrbody', 'ε' , 'ε'), #handler spasi di atribute
+            # ('qatrbody', '>', 'X'): ('qbody', 'ε', '>'),
+
+            # ('qbody',' ','>') : ('qbody','ε','ε'),
+            # ('qbody', '<', '>'): ('qbody', '>', 'ε'),
+            # ('qbody', '/', 'X'): ('endbody', 'X', 'ε'),
+            # ('endbody', 'b', 'y'): ('endbody', 'y', 'ε'),
+            # ('endbody', 'o', 'd'): ('endbody', 'd', 'ε'),
+            # ('endbody', 'd', 'o'): ('endbody', 'o', 'ε'),
+            # ('endbody', 'y', 'b'): ('endbody', 'b', 'ε'),
+            # ('endbody', '>', '<'): ('endbody', '<', 'ε'),
+            # ('endbody', ' ', '>'): ('endbody', 'ε', 'ε'),
+
+            # #Q Attribute Body
+            # ('qatrbody','c','X') : ('qclassbody','ε', 'c'),
+            # ('qclassbody','l','c') : ('qclassbody','ε','l'),
+            # ('qclassbody','a','l') : ('qclassbody','ε','a'),
+            # ('qclassbody','s','a') : ('qclassbody','a','ε'),
+            # ('qclassbody','s','l') : ('qclassbody','l','ε'),
+            # ('qclassbody','=','c') : ('qclassbody','c','ε'),
+            # ('qclassbody','"','X') : ('qpetikbody','ε','"'),
+            # ('qpetikbody','"','"') : ('qatrbody' , '"','ε'),
+
+            # ('qatrbody','s','X') : ('qstylebody','ε', 's'),
+            # ('qstylebody','t','s') : ('qstylebody','ε','t'),
+            # ('qstylebody','y','t') : ('qstylebody','ε','y'),
+            # ('qstylebody','l','y') : ('qstylebody','y','ε'),
+            # ('qstylebody','e','t') : ('qstylebody','t','ε'),
+            # ('qstylebody','=','s') : ('qstylebody','s','ε'),
+            # ('qstylebody','"','X') : ('qpetikbody','ε','"'),
+            # ('qpetikbody','"','"') : ('qatrbody' , '"','ε'),
+
+            # ('qatrbody','i','X') : ('qidbody','ε', 'i'),
+            # ('qidbody','d','i') : ('qidbody','i','ε'),
+            # ('qidbody','=','X') : ('qidbody','ε','ε'),
+            # ('qidbody','"','X') : ('qpetikbody','ε','"'),
+            # ('qpetikbody','"','"') : ('qatrbody' , '"','ε'),
+
 
             #==============================HEAD============================
             ('qcek', '<', '>'): ('qcek', 'ε', '<'),
@@ -179,7 +230,7 @@ transition = {
             ('endhead', 'a', 'a'): ('endhead', 'a', 'ε'),
             ('endhead', 'd', 'e'): ('endhead', 'e', 'ε'),
             ('endhead', '>', 'h'): ('qcek', 'h', 'ε'),
-            ('qcek', ' ', '<'): ('qcek', '<', 'ε'),
+            ('qcek', ' ', '<'): ('qcek', '<', 'ε'), #Spasial
             
 
              #Q Attribute Head
@@ -287,7 +338,6 @@ transition = {
             ('qpetiklinkhead','"','"') : ('qatrlinkhead' , '"','ε'),
            
             
-
             
             ('qatrlinkhead','c','<') : ('qclasslinkhead','ε', 'c'),
             ('qclasslinkhead','l','c') : ('qclasslinkhead','ε','l'),
@@ -313,8 +363,111 @@ transition = {
             ('qidlinkhead','=','<') : ('qidlinkhead','ε','ε'),
             ('qidlinkhead','"','<') : ('qpetiklinkhead','ε','"'),
             ('qpetiklinkhead','"','"') : ('qatrlinkhead' , '"','ε'),
-           
+             #==============================SCRIPT============================ (HEAD,BODY)
+            ('qcekhead',' ','>') : ('qcekhead','ε','ε'), #handle spasi antar tag
+            ('qcekhead', '<', '>'): ('qcekhead', 'ε', 'ε'),
+            ('qcekhead', 's', '>'): ('qscript', 'ε', '<s'),
+            ('qscript', 'c', 's'): ('qscript', 'ε', 'c'),
+            ('qscript', 'r', 'c'): ('qscript', 'ε', 'r'),
+            ('qscript', 'i', 'r'): ('qscript', 'ε', 'i'),
+            ('qscript', 'p', 'i'): ('qscript', 'ε', 'p'),
+            ('qscript', 't', 'p'): ('qscript', 'ε', 't'),
+            ('qscript', ' ', 't'): ('qatrscript', 'ε', 'X'),
+            ('qscript', '>', 't'): ('qscript', 'ε', 'X>'),
+            ('qatrscript','>','X') : ('qscript','ε','>'),
+            ('qatrscript',' ','X') : ('qatrscript','ε', 'ε'), #Handler apabila ada spasi di atribute
 
+            ('qscript',' ','>') : ('qscript','ε','ε'),
+            ('qscript','<','>') : ('endscript','>','ε'),
+            ('endscript','/','X') : ('endscript','X','ε'),
+            ('endscript','s','t') : ('endscript','t','ε'),
+            ('endscript','c','p') : ('endscript','p','ε'),
+            ('endscript','r','i') : ('endscript','i','ε'),
+            ('endscript','i','r') : ('endscript','r','ε'),
+            ('endscript','p','c') : ('endscript','c','ε'),
+            ('endscript','t','s') : ('endscript','s','ε'),
+            ('endscript','>','<') : ('qcekhead','<','ε'),
+            ('endscript', ' ', '>'): ('endscript', 'ε', 'ε'),
+
+             #Q Attribute script
+            ('qatrscript','c','X') : ('qclassscript','ε', 'c'),
+            ('qclassscript','l','c') : ('qclassscript','ε','l'),
+            ('qclassscript','a','l') : ('qclassscript','ε','a'),
+            ('qclassscript','s','a') : ('qclassscript','a','ε'),
+            ('qclassscript','s','l') : ('qclassscript','l','ε'),
+            ('qclassscript','=','c') : ('qclassscript','c','ε'),
+            ('qclassscript','"','X') : ('qpetikscript','ε','"'),
+            ('qpetikscript','"','"') : ('qatrscript' , '"','ε'),
+
+            ('qatrscript','s','X') : ('qstylescript','ε', 's'),
+            ('qstylescript','t','s') : ('qstylescript','ε','t'),
+            ('qstylescript','y','t') : ('qstylescript','ε','y'),
+            ('qstylescript','l','y') : ('qstylescript','y','ε'),
+            ('qstylescript','e','t') : ('qstylescript','t','ε'),
+            ('qstylescript','=','s') : ('qstylescript','s','ε'),
+            ('qstylescript','"','X') : ('qpetikscript','ε','"'),
+            ('qpetikscript','"','"') : ('qatrscript' , '"','ε'),
+
+            
+            ('qatrscript','i','X') : ('qidscript','ε', 'i'),
+            ('qidscript','d','i') : ('qidscript','i','ε'),
+            ('qidscript','=','X') : ('qidscript','ε','ε'),
+            ('qidscript','"','X') : ('qpetikscript','ε','"'),
+            ('qpetikscript','"','"') : ('qatrscript' , '"','ε'),
+
+            ('qatrscript','s','X') : ('qsrcscript','ε', 's'),
+            ('qsrcscript','r','s') : ('qsrcscript','ε','r'),
+            ('qsrcscript','c','r') : ('qsrcscript','r','ε'),
+            ('qsrcscript','=','s') : ('qsrcscript','s','ε'),
+            ('qsrcscript','"','X') : ('qpetikscript','ε','"'),
+            ('qpetikscript','"','"') : ('qatrscript' , '"','ε'),
+
+         #==============================DIV==============================(BODY) patokand di body
+           ('qcekbody', '<', '>'): ('qcekbody', 'ε', 'ε'),
+           ('qcekbody', 'd', '>'): ('qdiv', 'ε', '<d'),
+           ('qdiv', ' ', '>'): ('qdiv', 'ε', 'ε'),
+           ('qdiv', 'i', 'd'): ('qdiv', 'ε', 'i'),
+           ('qdiv', 'v', 'i'): ('qdiv', 'ε', 'v'),
+           ('qdiv', ' ', 'v'): ('qatrdiv', 'ε', 'X'),
+           ('qdiv', '>', 'v'): ('qdiv', 'ε', 'X>'),
+           ('qatrdiv','>','X') : ('qdiv','ε','>'),
+           ('qatrdiv',' ','X') : ('qatrdiv','ε','ε'),
+
+           
+           ('qdiv','<','>') : ('enddiv','>','ε'),
+           ('enddiv','/','X') : ('enddiv','X','ε'),
+           ('enddiv','d','v') : ('enddiv','v','ε'),
+           ('enddiv','i','i') : ('enddiv','i','ε'),
+           ('enddiv','v','d') : ('enddiv','d','ε'),
+           ('enddiv','>','<') : ('enddiv','<','ε'),
+           ('enddiv',' ','>') : ('qcekbody','ε','ε'),
+
+
+           #Q Attribute div
+            ('qatrdiv','c','X') : ('qclassdiv','ε', 'c'),
+            ('qclassdiv','l','c') : ('qclassdiv','ε','l'),
+            ('qclassdiv','a','l') : ('qclassdiv','ε','a'),
+            ('qclassdiv','s','a') : ('qclassdiv','a','ε'),
+            ('qclassdiv','s','l') : ('qclassdiv','l','ε'),
+            ('qclassdiv','=','c') : ('qclassdiv','c','ε'),
+            ('qclassdiv','"','X') : ('qpetikdiv','ε','"'),
+            ('qpetikdiv','"','"') : ('qatrdiv' , '"','ε'),
+
+            ('qatrdiv','s','X') : ('qstylediv','ε', 's'),
+            ('qstylediv','t','s') : ('qstylediv','ε','t'),
+            ('qstylediv','y','t') : ('qstylediv','ε','y'),
+            ('qstylediv','l','y') : ('qstylediv','y','ε'),
+            ('qstylediv','e','t') : ('qstylediv','t','ε'),
+            ('qstylediv','=','s') : ('qstylediv','s','ε'),
+            ('qstylediv','"','X') : ('qpetikdiv','ε','"'),
+            ('qpetikdiv','"','"') : ('qatrdiv' , '"','ε'),
+
+            
+            ('qatrdiv','i','X') : ('qiddiv','ε', 'i'),
+            ('qiddiv','d','i') : ('qiddiv','i','ε'),
+            ('qiddiv','=','X') : ('qiddiv','ε','ε'),
+            ('qiddiv','"','X') : ('qpetikdiv','ε','"'),
+            ('qpetikdiv','"','"') : ('qatrdiv' , '"','ε'),
 
             
             
