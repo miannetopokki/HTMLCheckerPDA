@@ -41,7 +41,8 @@ class PDA:
                 print(f"Current State: {self.current_state}")
                 print(self.stack)
             else:
-                if (self.current_state != 'qpetikbody' and self.current_state != 'qpetikhead'and self.current_state != 'qpetikhtml' ):   #Handler ignorance
+                if (self.current_state != 'qpetikbody' and self.current_state != 'qpetikhead'and self.current_state != 'qpetikhtml'
+                    and self.current_state != 'qpetiktitle' and self.current_state != 'qpetiklinkhead' and self.current_state != 'qkutiplinkhead'):   #Handler ignorance
                     print(f"Error: No transition for ({self.current_state}, {symbol}, {self.stack[-1]}).")
                     return False
                 
@@ -55,10 +56,11 @@ class PDA:
         return self.is_accepted()
 
 # Contoh penggunaan
-states = {'q0','endhead','qcek','qhead','qbody','endbody','endhtml'
-          ,'qatrbody','qclassbody','qpetikbody','qstylebody','qidbody',
-          'qatrhead','qclasshead','qpetikhead','qidhead','qstylehead,',
-          'qatrhtml','qclasshtml','qpetikhtml','qidhtml','qstylehtml'} 
+states = {'q0','qcek','qhead','endhtml','qatrhtml','qclasshtml','qpetikhtml','qidhtml','qstylehtml'
+          ,'qatrbody','qclassbody','qpetikbody','qstylebody','qidbody','qbody','endbody',
+          'qatrhead','qclasshead','qpetikhead','qidhead','qstylehead,','qcekhead','endhead',
+          'qtitle','qatrtitle','endtitle','qclasstitle','qstyletitle','qidtitle','qpetiktitle'
+          ,'qlinkhead','qatrlinkhead','qkutiplinkhead','qclasslinkhead','qstylelinkhead','qidlinkhead','qhreflinkhead','qpetiklinkhead'} 
 input_alphabet = {'<','h','t','m','l','>','/'}
 stack_alphabet = {'Z', '1'}
 transition = {
@@ -165,19 +167,20 @@ transition = {
             ('qhead', 'e', 'h'): ('qhead', 'ε', 'e'),
             ('qhead', 'a', 'e'): ('qhead', 'ε', 'a'),
             ('qhead', 'd', 'a'): ('qhead', 'ε', 'd'),
-            ('qhead', '>', 'd'): ('qhead', 'ε', 'X>'),
+            ('qhead', '>', 'd'): ('qcekhead', 'ε', 'X>'),
             ('qhead', ' ','d') : ('qatrhead' ,'ε','X'),
             ('qatrhead',' ','X') : ('qatrhead', 'ε' , 'ε'),
-            ('qatrhead', '>', 'X'): ('qhead', 'ε', '>'),
+            ('qatrhead', '>', 'X'): ('qcekhead', 'ε', '>'),
 
-            ('qhead',' ','>') : ('qhead','ε','ε'),
-            ('qhead', '<', '>'): ('endhead', '>', 'ε'),
-            ('endhead', '/', 'X'): ('endhead', 'X', 'ε'),
-            ('endhead', 'h', 'd'): ('endhead', 'd', 'ε'),
-            ('endhead', 'e', 'a'): ('endhead', 'a', 'ε'),
-            ('endhead', 'a', 'e'): ('endhead', 'e', 'ε'),
-            ('endhead', 'd', 'h'): ('endhead', 'h', 'ε'),
-            ('endhead', '>', '<'): ('qcek', '<', 'ε'),
+
+            ('qcekhead', '/', '>'): ('endhead', '>', 'ε'),
+            ('endhead', 'h', 'X'): ('endhead', 'X', 'ε'),
+            ('endhead', 'e', 'd'): ('endhead', 'd', 'ε'),
+            ('endhead', 'a', 'a'): ('endhead', 'a', 'ε'),
+            ('endhead', 'd', 'e'): ('endhead', 'e', 'ε'),
+            ('endhead', '>', 'h'): ('qcek', 'h', 'ε'),
+            ('qcek', ' ', '<'): ('qcek', '<', 'ε'),
+            
 
              #Q Attribute Head
             ('qatrhead','c','X') : ('qclasshead','ε', 'c'),
@@ -204,10 +207,118 @@ transition = {
             ('qidhead','"','X') : ('qpetikhead','ε','"'),
             ('qpetikhead','"','"') : ('qatrhead' , '"','ε'),
 
-             #==============================HEAD============================
+            #==============================TITLE============================ (HEAD)
+            ('qcekhead',' ','>') : ('qcekhead','ε','ε'), #handle spasi antar tag
+            ('qcekhead', '<', '>'): ('qcekhead', 'ε', 'ε'),
+            ('qcekhead', 't', '>'): ('qtitle', 'ε', '<t'),
+            ('qtitle', 'i', 't'): ('qtitle', 'ε', 'i'),
+            ('qtitle', 't', 'i'): ('qtitle', 'ε', 't'),
+            ('qtitle', 'l', 't'): ('qtitle', 'ε', 'l'),
+            ('qtitle', 'e', 'l'): ('qtitle', 'ε', 'e'),
+            ('qtitle', ' ', 'e'): ('qatrtitle', 'ε', 'X'),
+            ('qtitle', '>', 'e'): ('qtitle', 'ε', 'X>'),
+            ('qatrtitle','>','X') : ('qtitle','ε','>'),
+            ('qatrtitle',' ','X') : ('qatrtitle','ε', 'ε'), #Handler apabila ada spasi di atribute
+
+            ('qtitle',' ','>') : ('qtitle','ε','ε'),
+            ('qtitle','<','>') : ('endtitle','>','ε'),
+            ('endtitle','/','X') : ('endtitle','X','ε'),
+            ('endtitle','t','e') : ('endtitle','e','ε'),
+            ('endtitle','i','l') : ('endtitle','l','ε'),
+            ('endtitle','t','t') : ('endtitle','t','ε'),
+            ('endtitle','l','i') : ('endtitle','i','ε'),
+            ('endtitle','e','t') : ('endtitle','t','ε'),
+            ('endtitle','>','<') : ('qcekhead','<','ε'),
+            ('endtitle', ' ', '>'): ('endtitle', 'ε', 'ε'),
+
+             #Q Attribute Title
+            ('qatrtitle','c','X') : ('qclasstitle','ε', 'c'),
+            ('qclasstitle','l','c') : ('qclasstitle','ε','l'),
+            ('qclasstitle','a','l') : ('qclasstitle','ε','a'),
+            ('qclasstitle','s','a') : ('qclasstitle','a','ε'),
+            ('qclasstitle','s','l') : ('qclasstitle','l','ε'),
+            ('qclasstitle','=','c') : ('qclasstitle','c','ε'),
+            ('qclasstitle','"','X') : ('qpetiktitle','ε','"'),
+            ('qpetiktitle','"','"') : ('qatrtitle' , '"','ε'),
+
+            ('qatrtitle','s','X') : ('qstyletitle','ε', 's'),
+            ('qstyletitle','t','s') : ('qstyletitle','ε','t'),
+            ('qstyletitle','y','t') : ('qstyletitle','ε','y'),
+            ('qstyletitle','l','y') : ('qstyletitle','y','ε'),
+            ('qstyletitle','e','t') : ('qstyletitle','t','ε'),
+            ('qstyletitle','=','s') : ('qstyletitle','s','ε'),
+            ('qstyletitle','"','X') : ('qpetiktitle','ε','"'),
+            ('qpetiktitle','"','"') : ('qatrtitle' , '"','ε'),
+
+            
+            ('qatrtitle','i','X') : ('qidtitle','ε', 'i'),
+            ('qidtitle','d','i') : ('qidtitle','i','ε'),
+            ('qidtitle','=','X') : ('qidtitle','ε','ε'),
+            ('qidtitle','"','X') : ('qpetiktitle','ε','"'),
+            ('qpetiktitle','"','"') : ('qatrtitle' , '"','ε'),
 
 
+            #==============================LINK============================ (HEAD,BODY)
+            ('qcekhead',' ','>') : ('qcekhead','ε','ε'), #handle spasi antar tag
+            ('qcekhead', '<', '>'): ('qcekhead', 'ε', 'ε'),
+            ('qcekhead', 'l', '>'): ('qlinkhead', 'ε', '<l'),
+            ('qlinkhead', 'i', 'l'): ('qlinkhead', 'ε', 'i'),
+            ('qlinkhead', 'n', 'i'): ('qlinkhead', 'ε', 'n'),
+            ('qlinkhead', 'k', 'n'): ('qlinkhead', 'ε', 'k'),
+            ('qlinkhead',' ', 'k'): ('qatrlinkhead','ε' ,'ε'),
+            ('qatrlinkhead','r', 'k'): ('qlinkhead','k' ,'ε'),
+            ('qlinkhead','e', 'n'): ('qlinkhead','n' ,'ε'),
+            ('qlinkhead','l', 'i'): ('qlinkhead','i' ,'ε'),
+            ('qlinkhead','=', 'l'): ('qlinkhead','l' ,'ε'),
+            ('qlinkhead','"', '<'): ('qkutiplinkhead','ε' ,'"'),
+            ('qkutiplinkhead','"', '"'): ('qlinkhead','"' ,'ε'),
+            ('qlinkhead',' ','<') : ('qatrlinkhead','ε','ε'),
+            ('qlinkhead','>','<') : ('qcekhead','<','ε'),
+            ('qatrlinkhead','>','<') : ('qcekhead','<','ε'),
+            ('qatrlinkhead',' ','<') : ('qatrlinkhead','ε', 'ε'), #Handler apabila ada spasi di atribute
 
+            #Q Attribute Link
+            ('qatrlinkhead','h','<') : ('qhreflinkhead','ε', 'h'),
+            ('qhreflinkhead','r','h') : ('qhreflinkhead','ε','r'),
+            ('qhreflinkhead','e','r') : ('qhreflinkhead','r','ε'),
+            ('qhreflinkhead','f','h') : ('qhreflinkhead','h','ε'),
+            ('qhreflinkhead','=','<') : ('qhreflinkhead','ε','ε'),
+            ('qhreflinkhead','"','<') : ('qpetiklinkhead','ε','"'),
+            ('qpetiklinkhead','"','"') : ('qatrlinkhead' , '"','ε'),
+           
+            
+
+            
+            ('qatrlinkhead','c','<') : ('qclasslinkhead','ε', 'c'),
+            ('qclasslinkhead','l','c') : ('qclasslinkhead','ε','l'),
+            ('qclasslinkhead','a','l') : ('qclasslinkhead','ε','a'),
+            ('qclasslinkhead','s','a') : ('qclasslinkhead','a','ε'),
+            ('qclasslinkhead','s','l') : ('qclasslinkhead','l','ε'),
+            ('qclasslinkhead','=','c') : ('qclasslinkhead','c','ε'),
+            ('qclasslinkhead','"','<') : ('qpetiklinkhead','ε','"'),
+            ('qpetiklinkhead','"','"') : ('qatrlinkhead' , '"','ε'),
+
+            ('qatrlinkhead','s','<') : ('qstylelinkhead','ε', 's'),
+            ('qstylelinkhead','t','s') : ('qstylelinkhead','ε','t'),
+            ('qstylelinkhead','y','t') : ('qstylelinkhead','ε','y'),
+            ('qstylelinkhead','l','y') : ('qstylelinkhead','y','ε'),
+            ('qstylelinkhead','e','t') : ('qstylelinkhead','t','ε'),
+            ('qstylelinkhead','=','s') : ('qstylelinkhead','s','ε'),
+            ('qstylelinkhead','"','<') : ('qpetiklinkhead','ε','"'),
+            ('qpetiklinkhead','"','"') : ('qatrlinkhead' , '"','ε'),
+
+            
+            ('qatrlinkhead','i','<') : ('qidlinkhead','ε', 'i'),
+            ('qidlinkhead','d','i') : ('qidlinkhead','i','ε'),
+            ('qidlinkhead','=','<') : ('qidlinkhead','ε','ε'),
+            ('qidlinkhead','"','<') : ('qpetiklinkhead','ε','"'),
+            ('qpetiklinkhead','"','"') : ('qatrlinkhead' , '"','ε'),
+           
+
+
+            
+            
+           
          
 }
 
