@@ -57,7 +57,8 @@ class PDA:
 # Contoh penggunaan
 states = {'q0','endhead','qcek','qhead','qbody','endbody','endhtml'
           ,'qatrbody','qclassbody','qpetikbody','qstylebody','qidbody',
-          'qatrhead','qclasshead','qpetikhead','qidhead','qstylehead'} 
+          'qatrhead','qclasshead','qpetikhead','qidhead','qstylehead,',
+          'qatrhtml','qclasshtml','qpetikhtml','qidhtml','qstylehtml'} 
 input_alphabet = {'<','h','t','m','l','>','/'}
 stack_alphabet = {'Z', '1'}
 transition = {
@@ -68,11 +69,13 @@ transition = {
             ('q0', 'h', '<'): ('q0', 'ε', 'h'),
             ('q0', 't', 'h'): ('q0', 'ε', 't'),
             ('q0', 'm', 't'): ('q0', 'ε', 'm'),
-            ('q0', 'l', 'm'): ('q0', 'ε', 'lX'),
-            ('q0',' ','l'): ('q0','ε','ε'),
-            ('q0', '>', 'X'): ('qcek', 'ε', '>'),
+            ('q0', 'l', 'm'): ('q0', 'ε', 'l'),
+            ('q0','>','l') : ('qcek' ,'ε','X>'),
+            ('q0',' ','l'): ('qatrhtml','ε','X'),
+            ('qatrhtml',' ','X') : ('qatrhtml' , 'ε','ε'),
+            ('qatrhtml','>','X'): ('qcek','ε','>'),
 
-    
+
             ('endbody', '<', '>'): ('endhtml', '>', 'ε'),
             ('endhtml', '/', 'X'): ('endhtml', 'X', 'ε'),
             ('endhtml', 'h', 'l'): ('endhtml', 'l', 'ε'),
@@ -81,6 +84,31 @@ transition = {
             ('endhtml', 'l', 'h'): ('endhtml', 'h', 'ε'),
             ('endhtml', '>', '<'): ('qhtml', '<', 'ε'),
             ('qhtml', 'Z', 'ε'): ('qhtml', 'ε', 'ε'),
+
+            #Q Attribute HTML
+            ('qatrhtml','c','X') : ('qclasshtml','ε', 'c'),
+            ('qclasshtml','l','c') : ('qclasshtml','ε','l'),
+            ('qclasshtml','a','l') : ('qclasshtml','ε','a'),
+            ('qclasshtml','s','a') : ('qclasshtml','a','ε'),
+            ('qclasshtml','s','l') : ('qclasshtml','l','ε'),
+            ('qclasshtml','=','c') : ('qclasshtml','c','ε'),
+            ('qclasshtml','"','X') : ('qpetikhtml','ε','"'),
+            ('qpetikhtml','"','"') : ('qatrhtml' , '"','ε'),
+
+            ('qatrhtml','s','X') : ('qstylehtml','ε', 's'),
+            ('qstylehtml','t','s') : ('qstylehtml','ε','t'),
+            ('qstylehtml','y','t') : ('qstylehtml','ε','y'),
+            ('qstylehtml','l','y') : ('qstylehtml','y','ε'),
+            ('qstylehtml','e','t') : ('qstylehtml','t','ε'),
+            ('qstylehtml','=','s') : ('qstylehtml','s','ε'),
+            ('qstylehtml','"','X') : ('qpetikhtml','ε','"'),
+            ('qpetikhtml','"','"') : ('qatrhtml' , '"','ε'),
+
+            ('qatrhtml','i','X') : ('qidhtml','ε', 'i'),
+            ('qidhtml','d','i') : ('qidhtml','i','ε'),
+            ('qidhtml','=','X') : ('qidhtml','ε','ε'),
+            ('qidhtml','"','X') : ('qpetikhtml','ε','"'),
+            ('qpetikhtml','"','"') : ('qatrhtml' , '"','ε'),
 
 
             #==============================BODY==============================
@@ -92,6 +120,7 @@ transition = {
             ('qbody', 'y', 'd'): ('qbody', 'ε', 'y'),
             ('qbody', '>', 'y'): ('qbody', 'ε', 'X>'),
             ('qbody',' ','y'): ('qatrbody','ε','X'),
+            ('qatrbody',' ','X') : ('qatrbody', 'ε' , 'ε'), #handler spasi di atribute
             ('qatrbody', '>', 'X'): ('qbody', 'ε', '>'),
 
             ('qbody',' ','>') : ('qbody','ε','ε'),
@@ -130,7 +159,7 @@ transition = {
             ('qpetikbody','"','"') : ('qatrbody' , '"','ε'),
 
 
-            #==============================HEAD==============================
+            #==============================HEAD============================
             ('qcek', '<', '>'): ('qcek', 'ε', '<'),
             ('qcek', 'h', '<'): ('qhead', 'ε', 'h'),
             ('qhead', 'e', 'h'): ('qhead', 'ε', 'e'),
@@ -175,6 +204,7 @@ transition = {
             ('qidhead','"','X') : ('qpetikhead','ε','"'),
             ('qpetikhead','"','"') : ('qatrhead' , '"','ε'),
 
+             #==============================HEAD============================
 
 
 
