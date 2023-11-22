@@ -52,6 +52,7 @@ class PDA:
 
                 # Print stack setiap kali berubah
                 print(f"Current State: {self.current_state}")
+                print(f"SAAT iNI : ({self.current_state}, {symbol}, {self.stack[-1]}).")
                 print(self.stack)
             else:
                 if (self.current_state != 'qpetikbody' and self.current_state != 'qpetikhead'and self.current_state != 'qpetikhtml'
@@ -405,7 +406,7 @@ transition = {
 
            ('qdiv', '<', '>'): ('qdiv', 'ε', 'ε'),
            ('qdiv', 'd', '>'): ('qdiv', 'ε', '<d'),
-           ('qdiv',' ','D') : ('qcekbody','D','ε'),
+           ('qdiv','<','D') : ('qcekbody','D','ε'), #POP D agar balik ke body
 
            
            ('qdiv','<','>') : ('qdiv','ε','ε'),
@@ -563,19 +564,20 @@ transition = {
            
          
 }
+
 #==========================BACA FILE ======================#
 
-filename = 'src//rules.txt'
+# filename = 'src//rules.txt'
 
-with open(filename, 'r') as file:
-    content = file.read()
+# with open(filename, 'r') as file:
+#     content = file.read()
 
-exec(content)
+# exec(content)
 
-print("States:", states)
-print("Input Alphabet:", input_alphabet)
-print("Stack Alphabet:", stack_alphabet)
-print("Transitions:", transition)
+# print("States:", states)
+# print("Input Alphabet:", input_alphabet)
+# print("Stack Alphabet:", stack_alphabet)
+# print("Transitions:", transition)
 
 
 
