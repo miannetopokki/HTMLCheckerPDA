@@ -25,8 +25,8 @@ class PDA:
             if transition_tuple is None:
                 print(f"Error: No transition for {transition_key}.")
                 return False
-            else:
-                print(f"Transition tuple found: {transition_tuple}")
+            # else:
+            #     print(f"Transition tuple found: {transition_tuple}")
 
             next_state, pop_symbol, push_symbols = transition_tuple
             if ((self.current_state, symbol, self.stack[-1]) in self.transition and self.current_state in self.states):
@@ -57,7 +57,7 @@ class PDA:
             else:
                 if (self.current_state != 'qpetikbody' and self.current_state != 'qpetikhead'and self.current_state != 'qpetikhtml'
                     and self.current_state != 'qpetiktitle' and self.current_state != 'qpetiklinkhead' and self.current_state != 'qkutiplinkhead'
-                     and self.current_state != 'qdiv'):   #Handler ignorance
+                     and self.current_state != 'qdiv' and self.current_state != 'qpetikhr' and self.current_state != 'qpetika'):   #Handler ignorance
                     print(f"Error: No transition for ({self.current_state}, {symbol}, {self.stack[-1]}).")
                     return False
                 
@@ -79,7 +79,14 @@ states = {'q0','qcek','qhead','endhtml','qatrhtml','qclasshtml','qpetikhtml','qi
           'qscript','qatrscript','qpetikscript','qclassscript','qidscript','qstylescript','endscript','qsrcscript',
           'qdiv','qatrdiv','enddiv','qpetikdiv','qclassdiv','qiddiv','qstylediv',
           'qh','endh','qatrh','qclassh','qidh','qpetikh','qstyleh',
-          'qp','qatrp','endp','qclassp','qidp','qpetikp','qstylep'} 
+          'qp','qatrp','endp','qclassp','qidp','qpetikp','qstylep',
+          'qhr','qatrhr','qclasshr','qidhr','qpetikhr','qstylehr', 'q=hr',
+          'qa','enda','qatra','qclassa','qida','qpetika','qstylea', 'q=a', 'qhrefa',
+          'qimg','qatrimg','qclassimg','qidimg','qpetikimg','qstyleimg', 'qatrsrcimg', 'qsrcimg', 'qaltimg', 'q=img',
+          'qclasssrcimg','qidsrcimg','qpetiksrcimg','qstylesrcimg','qaltsrcimg', 'q=srcimg',
+          'qbutton','endbutton','qatrbutton','qclassbutton','qidbutton','qpetikbutton','qstylebutton', 'q=button', 'qsubmitbutton', 'qresetbutton', 'q=resetbutton','qbuttonbutton', 'qpetiktypebutton', 'qtypebutton',
+          'qform','endform','qatrform','qclassform','qidform','qpetikform','qstyleform', 'q=form', 'qactionform', 'qgetform', 'q=getform','qformform', 'qpetikmethod', 'qmethodform',
+          'qinput','endinput','qatrinput','qclassinput','qidinput','qpetikinput','qstyleinput', 'q=input', 'qnumberinput', 'qcheckboxinput', 'q=emailinput','qemailinput','qpasswordinput', 'qpetiktypeinput', 'qtypeinput'} 
 input_alphabet = {'<','h','t','m','l','>','/'}
 stack_alphabet = {'Z', '1'}
 transition = {
@@ -454,6 +461,7 @@ transition = {
             ('qh', '4', 'h'): ('qh', 'ε', '4'),
             ('qh', '5', 'h'): ('qh', 'ε', '5'),
             ('qh', '6', 'h'): ('qh', 'ε', '6'),
+            ('qh', 'r', 'h'): ('qhr', 'h', 'ε'),
             ('qh',' ','1') : ('qatrh','ε','X'),
             ('qh',' ','2') : ('qatrh','ε','X'),
             ('qh',' ','3') : ('qatrh','ε','X'),
@@ -552,13 +560,418 @@ transition = {
             ('qidp','=','X') : ('qidp','ε','ε'),
             ('qidp','"','X') : ('qpetikp','ε','"'),
             ('qpetikp','"','"') : ('qatrp' , '"','ε'),
-            #==============================br==============================V
+            #==============================br==============================
 
             #==============================em==============================
             #==============================b==============================
             #==============================abbr==============================
             #==============================strong==============================
              #==============================small==============================
+
+
+            #==============================hr===============================
+            ('qh', 'r', 'h'): ('qhr', 'h', 'ε'),
+            ('qhr', ' ', '<'): ('qatrhr', '<', 'X'),
+            ('qhr', '>', '<'): ('qcekbody', '<', 'ε'),
+            ('qatrhr','>','X') :('qcekbody', 'X', 'ε'),
+            ('qatrhr',' ','X') : ('qatrhr','ε','ε'),
+            ('qhr', ' ', 'X'): ('qhr', 'ε', 'ε'),
+
+
+            #atribut hr
+            ('qatrhr','c','X') : ('qclasshr','ε', 'c'),
+            ('qclasshr','l','c') : ('qclasshr','ε','l'),
+            ('qclasshr','a','l') : ('qclasshr','ε','a'),
+            ('qclasshr','s','a') : ('qclasshr','a','ε'),
+            ('qclasshr','s','l') : ('qclasshr','l','ε'),
+            ('qclasshr','=','c') : ('qclasshr','c','ε'),
+            ('qclasshr','"','X') : ('qpetikhr','ε','"'),
+            ('qpetikhr','"','"') : ('qatrhr' , '"','ε'),
+
+            ('qatrhr','s','X') : ('qstylehr','ε', 's'),
+            ('qstylehr','t','s') : ('qstylehr','ε','t'),
+            ('qstylehr','y','t') : ('qstylehr','ε','y'),
+            ('qstylehr','l','y') : ('qstylehr','y','ε'),
+            ('qstylehr','e','t') : ('qstylehr','t','ε'),
+            ('qstylehr','=','s') : ('qstylehr','s','ε'),
+            ('qstylehr','"','X') : ('qpetikhr','ε','"'),
+            ('qpetikhr','"','"') : ('qatrhr' , '"','ε'),
+
+            
+            ('qatrhr','i','X') : ('qidhr','ε', 'i'),
+            ('qidhr','d','i') : ('qidhr','i','ε'),
+            ('qidhr','=','X') : ('q=hr','ε','ε'),
+            ('q=hr','"','X') : ('qpetikhr','ε','"'),
+            ('qpetikhr','"','"') : ('qatrhr' , '"','ε'),
+
+            #==============================endhr===============================
+
+
+            #==============================a===============================
+            ('qcekbody', 'a', '>'): ('qa', 'ε', '<a'),
+            ('qa', ' ', 'a'): ('qatra', 'ε', 'X'),
+            ('qa', '>', 'a'): ('qa', 'ε', 'X>'),
+            ('qatra','>','X') :('qa', 'ε', '>'),
+            ('qatra',' ','X') : ('qatra','ε','ε'),
+            ('qa', ' ', 'X'): ('qa', 'ε', 'ε'),
+
+            ('qa',' ','>') : ('qa','ε','ε'),
+            ('qa','<','>') : ('enda','>','ε'),
+            ('enda','/','X') : ('enda','X','ε'),
+            ('enda','a','a') : ('enda','a','ε'),
+            ('enda','>','<') : ('qcekbody','<','ε'),
+
+            #atribut a
+            ('qatra','h','X') : ('qhrefa','ε', 'h'),
+            ('qhrefa','r','h') : ('qhrefa','ε','r'),
+            ('qhrefa','e','r') : ('qhrefa','r','ε'),
+            ('qhrefa','f','h') : ('qhrefa','h','ε'),
+            ('qhrefa','=','X') : ('q=a','ε','ε'),
+            ('q=a','"','X') : ('qpetika','ε','"'),
+            ('qpetika','"','"') : ('qatra' , '"','ε'),
+            
+            ('qatra','c','X') : ('qclassa','ε', 'c'),
+            ('qclassa','l','c') : ('qclassa','ε','l'),
+            ('qclassa','a','l') : ('qclassa','ε','a'),
+            ('qclassa','s','a') : ('qclassa','a','ε'),
+            ('qclassa','s','l') : ('qclassa','l','ε'),
+            ('qclassa','=','c') : ('qclassa','c','ε'),
+            ('qclassa','"','X') : ('qpetika','ε','"'),
+            ('qpetika','"','"') : ('qatra' , '"','ε'),
+
+            ('qatra','s','X') : ('qstylea','ε', 's'),
+            ('qstylea','t','s') : ('qstylea','ε','t'),
+            ('qstylea','y','t') : ('qstylea','ε','y'),
+            ('qstylea','l','y') : ('qstylea','y','ε'),
+            ('qstylea','e','t') : ('qstylea','t','ε'),
+            ('qstylea','=','s') : ('qstylea','s','ε'),
+            ('qstylea','"','X') : ('qpetika','ε','"'),
+            ('qpetika','"','"') : ('qatra' , '"','ε'),
+
+            ('qatra','i','X') : ('qida','ε', 'i'),
+            ('qida','d','i') : ('qida','i','ε'),
+            ('qida','=','X') : ('q=a','ε','ε'),
+            ('q=a','"','X') : ('qpetika','ε','"'),
+            ('qpetika','"','"') : ('qatra' , '"','ε'),
+            #==============================enda===============================
+
+            #==============================img==================================
+            ('qcekbody', 'i', '>'): ('qimg', 'ε', '<i'),
+            ('qimg', 'm', 'i'): ('qimg', 'i', 'ε'),
+            ('qimg', 'g', '<'): ('qimg', '<', 'ε'),
+            ('qimg', ' ', '>'): ('qatrimg', '', 'X'),
+            ('qatrsrcimg','>','X') :('qcekbody', 'X', 'ε'),
+            ('qatrimg',' ','X') : ('qatrimg','ε','ε'),
+            ('qatrsrcimg',' ','X') : ('qatrsrcimg','ε','ε'),
+            ('qimg', ' ', 'X'): ('qimg', 'ε', 'ε'),
+
+
+            #atribut img
+            ('qatrimg','c','X') : ('qclassimg','ε', 'c'),
+            ('qclassimg','l','c') : ('qclassimg','ε','l'),
+            ('qclassimg','a','l') : ('qclassimg','ε','a'),
+            ('qclassimg','s','a') : ('qclassimg','a','ε'),
+            ('qclassimg','s','l') : ('qclassimg','l','ε'),
+            ('qclassimg','=','c') : ('qclassimg','c','ε'),
+            ('qclassimg','"','X') : ('qpetikimg','ε','"'),
+            ('qpetikimg','"','"') : ('qatrimg' , '"','ε'),
+
+            ('qatrimg','s','X') : ('qstyleimg','ε', 's'),
+            ('qstyleimg','t','s') : ('qstyleimg','ε','t'),
+            ('qstyleimg','y','t') : ('qstyleimg','ε','y'),
+            ('qstyleimg','l','y') : ('qstyleimg','y','ε'),
+            ('qstyleimg','e','t') : ('qstyleimg','t','ε'),
+            ('qstyleimg','=','s') : ('qstyleimg','s','ε'),
+            ('qstyleimg','"','X') : ('qpetikimg','ε','"'),
+            ('qpetikimg','"','"') : ('qatrimg' , '"','ε'),
+
+            ('qatrimg','i','X') : ('qidimg','ε', 'i'),
+            ('qidimg','d','i') : ('qidimg','i','ε'),
+            ('qidimg','=','X') : ('q=img','ε','ε'),
+            ('q=img','"','X') : ('qpetikimg','ε','"'),
+            ('qpetikimg','"','"') : ('qatrimg' , '"','ε'),
+            
+            ('qatrimg','a','X') : ('qaltimg','ε', 'a'),
+            ('qaltimg','l','a') : ('qaltimg','ε','l'),
+            ('qaltimg','t','l') : ('qaltimg','l','ε'),
+            ('qaltimg','=','a') : ('qaltimg','a','ε'),
+            ('qaltimg','"','X') : ('qpetikimg','ε','"'),
+            ('qpetikimg','"','"') : ('qatrimg' , '"','ε'),
+
+            ('qatrimg','s','X') : ('qsrcimg','ε', 's'),
+            ('qsrcimg','r','s') : ('qsrcimg','ε','r'),
+            ('qsrcimg','c','r') : ('qsrcimg','r','ε'),
+            ('qsrcimg','=','s') : ('qsrcimg','s','ε'),
+            ('qsrcimg','"','X') : ('qpetiksrcimg','ε','"'),
+            ('qpetiksrcimg','"','"') : ('qatrsrcimg' , '"','ε'),
+
+            ('qatrsrcimg','c','X') : ('qclasssrcimg','ε', 'c'),
+            ('qclasssrcimg','l','c') : ('qclasssrcimg','ε','l'),
+            ('qclasssrcimg','a','l') : ('qclasssrcimg','ε','a'),
+            ('qclasssrcimg','s','a') : ('qclasssrcimg','a','ε'),
+            ('qclasssrcimg','s','l') : ('qclasssrcimg','l','ε'),
+            ('qclasssrcimg','=','c') : ('qclasssrcimg','c','ε'),
+            ('qclasssrcimg','"','X') : ('qpetiksrcimg','ε','"'),
+            ('qpetiksrcimg','"','"') : ('qatrsrcimg' , '"','ε'),
+
+            ('qatrsrcimg','s','X') : ('qstylesrcimg','ε', 's'),
+            ('qstylesrcimg','t','s') : ('qstylesrcimg','ε','t'),
+            ('qstylesrcimg','y','t') : ('qstylesrcimg','ε','y'),
+            ('qstylesrcimg','l','y') : ('qstylesrcimg','y','ε'),
+            ('qstylesrcimg','e','t') : ('qstylesrcimg','t','ε'),
+            ('qstylesrcimg','=','s') : ('qstylesrcimg','s','ε'),
+            ('qstylesrcimg','"','X') : ('qpetiksrcimg','ε','"'),
+            ('qpetiksrcimg','"','"') : ('qatrsrcimg' , '"','ε'),
+
+            ('qatrsrcimg','i','X') : ('qidsrcimg','ε', 'i'),
+            ('qidsrcimg','d','i') : ('qidsrcimg','i','ε'),
+            ('qidsrcimg','=','X') : ('q=srcimg','ε','ε'),
+            ('q=srcimg','"','X') : ('qpetiksrcimg','ε','"'),
+            ('qpetiksrcimg','"','"') : ('qatrsrcimg' , '"','ε'),
+            
+            ('qatrsrcimg','a','X') : ('qaltsrcimg','ε', 'a'),
+            ('qaltsrcimg','l','a') : ('qaltsrcimg','ε','l'),
+            ('qaltsrcimg','t','l') : ('qaltsrcimg','l','ε'),
+            ('qaltsrcimg','=','a') : ('qaltsrcimg','a','ε'),
+            ('qaltsrcimg','"','X') : ('qpetiksrcimg','ε','"'),
+            ('qpetiksrcimg','"','"') : ('qatrsrcimg' , '"','ε'),
+            #==============================endimg===============================
+            
+
+            #==============================button===============================
+            ('qcekbody', 'b', '>'): ('qbutton', 'ε', '<b'),
+            ('qbutton', 'u', 'b'): ('qbutton', 'ε', 'u'),
+            ('qbutton', 't', 'u'): ('qbutton', 'ε', 't'),
+            ('qbutton', 't', 't'): ('qbutton', 'ε', 't'),
+            ('qbutton', 'o', 't'): ('qbutton', 'ε', 'o'),
+            ('qbutton', 'n', 'o'): ('qbutton', 'ε', 'n'),
+            ('qbutton', ' ', 'n'): ('qatrbutton', 'ε', 'X'),
+            ('qbutton', '>', 'n'): ('qbutton', 'ε', 'X>'),
+            ('qatrbutton','>','X') :('qbutton', 'ε', '>'),
+            ('qatrbutton',' ','X') : ('qatrbutton','ε','ε'),
+            ('qbutton', ' ', 'X'): ('qbutton', 'ε', 'ε'),
+
+            ('qbutton',' ','>') : ('qbutton','ε','ε'),
+            ('qbutton','<','>') : ('endbutton','>','ε'),
+            ('endbutton','/','X') : ('endbutton','X','ε'),
+            ('endbutton','b','n') : ('endbutton','n','ε'),
+            ('endbutton','u','o') : ('endbutton','o','ε'),
+            ('endbutton','t','t') : ('endbutton','t','ε'),
+            ('endbutton','t','t') : ('endbutton','t','ε'),
+            ('endbutton','o','u') : ('endbutton','u','ε'),
+            ('endbutton','n','b') : ('endbutton','b','ε'),
+            ('endbutton','>','<') : ('qcekbody','<','ε'),
+
+            #atribut button
+            ('qatrbutton','c','X') : ('qclassbutton','ε', 'c'),
+            ('qclassbutton','l','c') : ('qclassbutton','ε','l'),
+            ('qclassbutton','a','l') : ('qclassbutton','ε','a'),
+            ('qclassbutton','s','a') : ('qclassbutton','a','ε'),
+            ('qclassbutton','s','l') : ('qclassbutton','l','ε'),
+            ('qclassbutton','=','c') : ('qclassbutton','c','ε'),
+            ('qclassbutton','"','X') : ('qpetikbutton','ε','"'),
+            ('qpetikbutton','"','"') : ('qatrbutton' , '"','ε'),
+
+            ('qatrbutton','s','X') : ('qstylebutton','ε', 's'),
+            ('qstylebutton','t','s') : ('qstylebutton','ε','t'),
+            ('qstylebutton','y','t') : ('qstylebutton','ε','y'),
+            ('qstylebutton','l','y') : ('qstylebutton','y','ε'),
+            ('qstylebutton','e','t') : ('qstylebutton','t','ε'),
+            ('qstylebutton','=','s') : ('qstylebutton','s','ε'),
+            ('qstylebutton','"','X') : ('qpetikbutton','ε','"'),
+            ('qpetikbutton','"','"') : ('qatrbutton' , '"','ε'),
+   
+            ('qatrbutton','i','X') : ('qidbutton','ε', 'i'),
+            ('qidbutton','d','i') : ('qidbutton','i','ε'),
+            ('qidbutton','=','X') : ('q=button','ε','ε'),
+            ('q=button','"','X') : ('qpetikbutton','ε','"'),
+            ('qpetikbutton','"','"') : ('qatrbutton' , '"','ε'),
+
+            ('qatrbutton','t','X') : ('qtypebutton','ε', 't'),
+            ('qtypebutton','y','t') : ('qtypebutton','ε','y'),
+            ('qtypebutton','p','y') : ('qtypebutton','y','ε'),
+            ('qtypebutton','e','t') : ('qtypebutton','t','ε'),
+            ('qtypebutton','=','X') : ('q=button','ε','ε'),
+            ('q=button','"','X') : ('qpetiktypebutton','ε','"'),
+            ('qpetiktypebutton','"','"') : ('qatrbutton' , '"','ε'),
+
+            ('qpetiktypebutton','s','"') : ('qsubmitbutton' , 'ε','s'),
+            ('qsubmitbutton','u','s') : ('qsubmitbutton' , 'ε','u'),
+            ('qsubmitbutton','b','u') : ('qsubmitbutton' , 'ε','b'),
+            ('qsubmitbutton','m','b') : ('qsubmitbutton' , 'b','ε'), 
+            ('qsubmitbutton','i','u') : ('qsubmitbutton' , 'u','ε'), 
+            ('qsubmitbutton','t','s') : ('qpetiktypebutton' , 's','ε'),
+
+            ('qpetiktypebutton','b','"') : ('qbuttonbutton' , 'ε','b'),
+            ('qbuttonbutton','u','b') : ('qbuttonbutton' , 'ε','u'),
+            ('qbuttonbutton','t','u') : ('qbuttonbutton' , 'ε','t'),
+            ('qbuttonbutton','t','t') : ('qbuttonbutton' , 't','ε'), 
+            ('qbuttonbutton','o','u') : ('qbuttonbutton' , 'u','ε'), 
+            ('qbuttonbutton','n','b') : ('qpetiktypebutton' , 'b','ε'),
+
+            ('qpetiktypebutton','r','"') : ('qresetbutton' , 'ε','r'),
+            ('qresetbutton','e','r') : ('qresetbutton' , 'ε','e'),
+            ('qresetbutton','s','e') : ('q=resetbutton' , 'ε','ε'),
+            ('q=resetbutton','e','e') : ('qresetbutton' , 'e','ε'),  
+            ('qresetbutton','t','t') : ('qpetiktypebutton' , 't','ε'),  
+            #==============================endbutton===============================
+
+            #==============================form===============================
+            ('qcekbody', 'f', '>'): ('qform', 'ε', '<f'),
+            ('qform', 'o', 'f'): ('qform', 'ε', 'o'),
+            ('qform', 'r', 'o'): ('qform', 'ε', 'r'),
+            ('qform', 'm', 'r'): ('qform', 'ε', 'm'),
+            ('qform', ' ', 'm'): ('qatrform', 'ε', 'X'),
+            ('qform', '>', 'm'): ('qform', 'ε', 'X>'),
+            ('qatrform','>','X') :('qform', 'ε', '>'),
+            ('qatrform',' ','X') : ('qatrform','ε','ε'),
+            ('qform', ' ', 'X'): ('qform', 'ε', 'ε'),
+
+            ('qform',' ','>') : ('qform','ε','ε'),
+            ('qform','<','>') : ('endform','>','ε'),
+            ('endform','/','X') : ('endform','X','ε'),
+            ('endform','f','m') : ('endform','m','ε'),
+            ('endform','o','r') : ('endform','r','ε'),
+            ('endform','r','o') : ('endform','o','ε'),
+            ('endform','m','f') : ('endform','f','ε'),
+            ('endform','>','<') : ('qcekbody','<','ε'),
+
+            #atribut form
+            ('qatrform','c','X') : ('qclassform','ε', 'c'),
+            ('qclassform','l','c') : ('qclassform','ε','l'),
+            ('qclassform','a','l') : ('qclassform','ε','a'),
+            ('qclassform','s','a') : ('qclassform','a','ε'),
+            ('qclassform','s','l') : ('qclassform','l','ε'),
+            ('qclassform','=','c') : ('qclassform','c','ε'),
+            ('qclassform','"','X') : ('qpetikform','ε','"'),
+            ('qpetikform','"','"') : ('qatrform' , '"','ε'),
+
+            ('qatrform','s','X') : ('qstyleform','ε', 's'),
+            ('qstyleform','t','s') : ('qstyleform','ε','t'),
+            ('qstyleform','y','t') : ('qstyleform','ε','y'),
+            ('qstyleform','l','y') : ('qstyleform','y','ε'),
+            ('qstyleform','e','t') : ('qstyleform','t','ε'),
+            ('qstyleform','=','s') : ('qstyleform','s','ε'),
+            ('qstyleform','"','X') : ('qpetikform','ε','"'),
+            ('qpetikform','"','"') : ('qatrform' , '"','ε'),
+   
+            ('qatrform','i','X') : ('qidform','ε', 'i'),
+            ('qidform','d','i') : ('qidform','i','ε'),
+            ('qidform','=','X') : ('q=form','ε','ε'),
+            ('q=form','"','X') : ('qpetikform','ε','"'),
+            ('qpetikform','"','"') : ('qatrform' , '"','ε'),
+
+            ('qatrform','t','X') : ('qmethodform','ε', 't'),
+            ('qmethodform','y','t') : ('qmethodform','ε','y'),
+            ('qmethodform','p','y') : ('qmethodform','y','ε'),
+            ('qmethodform','e','t') : ('qmethodform','t','ε'),
+            ('qmethodform','=','X') : ('q=form','ε','ε'),
+            ('q=form','"','X') : ('qpetikmethod','ε','"'),
+            ('qpetikmethod','"','"') : ('qatrform' , '"','ε'),
+
+            ('qpetikmethod','P','"') : ('qpostform' , 'ε','P'),
+            ('qpostform','O','P') : ('qpostform' , 'ε','O'),
+            ('qpostform','S','O') : ('qpostform' , 'O','b'), 
+            ('qpostform','T','P') : ('qpetikmethod' , 'P','ε'),
+
+            ('qpetikmethod','G','"') : ('qgetform' , 'ε','G'),
+            ('qgetform','E','G') : ('q=getform' , 'ε','ε'), 
+            ('q=getform','T','G') : ('qpetikmethod' , 'G','ε'),
+
+            ('qatrform','t','X') : ('qactionform','ε', 't'),
+            ('qactionform','y','t') : ('qactionform','ε','y'),
+            ('qactionform','p','y') : ('qactionform','y','ε'),
+            ('qactionform','e','t') : ('qactionform','t','ε'),
+            ('qactionform','=','X') : ('q=form','ε','ε'),
+            ('q=form','"','X') : ('qpetikform','ε','"'),
+            ('qpetikform','"','"') : ('qatrform' , '"','ε'),
+            #==============================endform===============================
+
+            #================================input=============================
+            ('qimg', 'n', 'i'): ('qinput', 'ε', 'n'),
+            ('qinput', 'p', 'n'): ('qinput', 'n', 'ε'),
+            ('qinput', 'u', 'i'): ('qinput', 'i', 'ε'),
+            ('qinput', 't', '<'): ('qinput', '<', 'ε'),
+            ('qinput', ' ', '>'): ('qatrinput', 'ε', 'X'),
+            ('qinput', '>', '>'): ('qcekbody', 'ε', 'ε'),
+            ('qatrinput','>','X') :('qcekbody', 'X', 'ε'),
+            ('qatrinput',' ','X') : ('qatrinput','ε','ε'),
+            ('qinput', ' ', 'X'): ('qinput', 'ε', 'ε'),
+
+            ('qatrinput','c','X') : ('qclassinput','ε', 'c'),
+            ('qclassinput','l','c') : ('qclassinput','ε','l'),
+            ('qclassinput','a','l') : ('qclassinput','ε','a'),
+            ('qclassinput','s','a') : ('qclassinput','a','ε'),
+            ('qclassinput','s','l') : ('qclassinput','l','ε'),
+            ('qclassinput','=','c') : ('qclassinput','c','ε'),
+            ('qclassinput','"','X') : ('qpetikinput','ε','"'),
+            ('qpetikinput','"','"') : ('qatrinput' , '"','ε'),
+
+            ('qatrinput','s','X') : ('qstyleinput','ε', 's'),
+            ('qstyleinput','t','s') : ('qstyleinput','ε','t'),
+            ('qstyleinput','y','t') : ('qstyleinput','ε','y'),
+            ('qstyleinput','l','y') : ('qstyleinput','y','ε'),
+            ('qstyleinput','e','t') : ('qstyleinput','t','ε'),
+            ('qstyleinput','=','s') : ('qstyleinput','s','ε'),
+            ('qstyleinput','"','X') : ('qpetikinput','ε','"'),
+            ('qpetikinput','"','"') : ('qatrinput' , '"','ε'),
+   
+            ('qatrinput','i','X') : ('qidinput','ε', 'i'),
+            ('qidinput','d','i') : ('qidinput','i','ε'),
+            ('qidinput','=','X') : ('q=input','ε','ε'),
+            ('q=input','"','X') : ('qpetikinput','ε','"'),
+            ('qpetikinput','"','"') : ('qatrinput' , '"','ε'),
+
+            ('qatrinput','t','X') : ('qtypeinput','ε', 't'),
+            ('qtypeinput','y','t') : ('qtypeinput','ε','y'),
+            ('qtypeinput','p','y') : ('qtypeinput','y','ε'),
+            ('qtypeinput','e','t') : ('qtypeinput','t','ε'),
+            ('qtypeinput','=','X') : ('q=input','ε','ε'),
+            ('q=input','"','X') : ('qpetiktypeinput','ε','"'),
+            ('qpetiktypeinput','"','"') : ('qatrinput' , '"','ε'),
+
+            ('qpetiktypeinput','n','"') : ('qnumberinput' , 'ε','n'),
+            ('qnumberinput','u','n') : ('qnumberinput' , 'ε','u'),
+            ('qnumberinput','m','u') : ('qnumberinput' , 'ε','m'),
+            ('qnumberinput','b','m') : ('qnumberinput' , 'm','ε'), 
+            ('qnumberinput','e','u') : ('qnumberinput' , 'u','ε'), 
+            ('qnumberinput','r','n') : ('qpetiktypeinput' , 'n','ε'),
+
+            ('qpetiktypeinput','p','"') : ('qpasswordinput' , 'ε','p'),
+            ('qpasswordinput','a','p') : ('qpasswordinput' , 'ε','a'),
+            ('qpasswordinput','s','a') : ('qpasswordinput' , 'ε','s'),
+            ('qpasswordinput','s','s') : ('qpasswordinput' , 'ε','s'), 
+            ('qpasswordinput','w','s') : ('qpasswordinput' , 's','ε'), 
+            ('qpasswordinput','o','s') : ('qpasswordinput' , 's','ε'),
+            ('qpasswordinput','r','a') : ('qpasswordinput' , 'a','ε'),  
+            ('qpasswordinput','d','p') : ('qpetiktypeinput' , 'p','ε'),
+
+            ('qpetiktypeinput','c','"') : ('qcheckboxinput' , 'ε','c'),
+            ('qcheckboxinput','h','c') : ('qcheckboxinput' , 'ε','h'),
+            ('qcheckboxinput','e','h') : ('qcheckboxinput' , 'ε','e'),
+            ('qcheckboxinput','c','e') : ('qcheckboxinput' , 'ε','c'), 
+            ('qcheckboxinput','k','c') : ('qcheckboxinput' , 'c','ε'), 
+            ('qcheckboxinput','b','e') : ('qcheckboxinput' , 'e','ε'),
+            ('qcheckboxinput','o','h') : ('qcheckboxinput' , 'h','ε'),  
+            ('qcheckboxinput','x','c') : ('qpetiktypeinput' , 'c','ε'),
+
+            ('qpetiktypeinput','t','"') : ('qtextinput' , 'ε','t'),
+            ('qtextinput','e','t') : ('qtextinput' , 'ε','e'),
+            ('qtextinput','x','e') : ('qtextinput' , 'e','ε'), 
+            ('qtextinput','t','t') : ('qpetiktypeinput' , 't','ε'),
+
+            ('qpetiktypeinput','e','"') : ('qemailinput' , 'ε','e'),
+            ('qemailinput','m','e') : ('qemailinput' , 'ε','m'),
+            ('qemailinput','a','m') : ('q=emailinput' , 'ε','ε'),
+            ('q=emailinput','i','m') : ('qemailinput' , 'm','ε'), 
+            ('qemailinput','l','e') : ('qpetiktypeinput' , 'e','ε'),
+            #================================endinput=============================
+
+            #================================table=============================
+            #================================tr=============================
+            #================================td=============================
+            #================================th=============================
+            
             
             
            
@@ -601,14 +1014,14 @@ result_string = " ".join(splittedcontent)
 
 
 #======================================CREATE FILE======================#
-# with open('src//rules.txt', 'w', encoding='utf-8') as file:
-#     file.write("states = " + str(states) + "\n")
-#     file.write("input_alphabet = " + str(input_alphabet) + "\n")
-#     file.write("stack_alphabet = " + str(stack_alphabet) + "\n")
-#     file.write("transition = {\n")
-#     for rule in transition:
-#         file.write(f"    {rule}: {transition[rule]},\n")
-#     file.write("}\n")
+with open('src//rules.txt', 'w', encoding='utf-8') as file:
+    file.write("states = " + str(states) + "\n")
+    file.write("input_alphabet = " + str(input_alphabet) + "\n")
+    file.write("stack_alphabet = " + str(stack_alphabet) + "\n")
+    file.write("transition = {\n")
+    for rule in transition:
+        file.write(f"    {rule}: {transition[rule]},\n")
+    file.write("}\n")
 
 print(result_string)
 
