@@ -22,9 +22,8 @@ class PDA:
             transition_key = (self.current_state, symbol, self.stack[-1])
             transition_tuple = self.transition.get(transition_key)
 
-            if transition_tuple is None:
-                print(f"Error: No transition for {transition_key}.")
-            else:
+            
+            if transition_tuple is not None:
                 print(f"Transition tuple found: {transition_tuple}")
                 next_state, pop_symbol, push_symbols = transition_tuple
 
@@ -54,11 +53,10 @@ class PDA:
                 print(f"Current State: {self.current_state}")
                 print(f"SAAT iNI : ({self.current_state}, {symbol}, {self.stack[-1]}).")
                 print(self.stack)
-            else:
-                if (self.current_state != 'qpetikbody' and self.current_state != 'qpetikhead'and self.current_state != 'qpetikhtml'
+            elif (self.current_state != 'qpetikbody' and self.current_state != 'qpetikhead'and self.current_state != 'qpetikhtml'
                     and self.current_state != 'qpetiktitle' and self.current_state != 'qpetiklinkhead' and self.current_state != 'qkutiplinkhead'
-                    and self.current_state != 'qdiv' and self.current_state != 'qpetikhr' and self.current_state != 'qpetika' and self.current_state != "qh"
-                    and self.current_state != "qp"and self.current_state != "qpetikdiv" ):   #Handler ignorance
+                    and self.current_state != 'qdiv' and self.current_state != 'qpetikhr' and self.current_state != 'qpetika'
+                    and self.current_state != "qpetikdiv" and self.current_state != "qtitle" and self.current_state != "qcekp" and self.current_state != "qh"):   #Handler ignorance
                     print(f"Error: No transition for ({self.current_state}, {symbol}, {self.stack[-1]}).")
                     return False
                 
@@ -79,8 +77,8 @@ states = {'q0','qcek','qhead','endhtml','qatrhtml','qclasshtml','qpetikhtml','qi
           ,'qlinkhead','qatrlinkhead','qkutiplinkhead','qclasslinkhead','qstylelinkhead','qidlinkhead','qhreflinkhead','qpetiklinkhead',
           'qscript','qatrscript','qpetikscript','qclassscript','qidscript','qstylescript','endscript','qsrcscript',
           'qdiv','qatrdiv','enddiv','qpetikdiv','qclassdiv','qiddiv','qstylediv',
-          'qh','endh','qatrh','qclassh','qidh','qpetikh','qstyleh',
-          'qp','qatrp','endp','qclassp','qidp','qpetikp','qstylep',
+          'qh','endh','qatrh','qclassh','qidh','qpetikh','qstyleh','qhcek',
+          'qp','qatrp','endp','qclassp','qidp','qpetikp','qstylep','qcekp',
           'qhr','qatrhr','qclasshr','qidhr','qpetikhr','qstylehr', 'q=hr',
           'qa','enda','qatra','qclassa','qida','qpetika','qstylea', 'q=a', 'qhrefa',
           'qimg','qatrimg','qclassimg','qidimg','qpetikimg','qstyleimg', 'qatrsrcimg', 'qsrcimg', 'qaltimg', 'q=img',
@@ -476,13 +474,14 @@ transition = {
             ('qh' ,'>','4') : ('qh','ε','X>'),
             ('qh' ,'>','5') : ('qh','ε','X>'),
             ('qh' ,'>','6') : ('qh','ε','X>'),
-            ('qatrh','>','X') : ('qh','ε','>'),
+            ('qatrh','>','X') : ('qhcek','ε','>'),
             ('qatrh',' ','X') : ('qatrh','ε', 'ε'),
 
+       
             ('qh',' ','>') : ('qh','ε','ε'),
-            ('qh','<','>') : ('qh','ε','ε'),
+            ('qh','<','>') : ('qhcek','ε','ε'),
 
-            ('qh','/','>') : ('endh','>','ε'),
+            ('qhcek','/','>') : ('endh','>','ε'),
             ('endh','h','X') : ('endh','X','ε'),
             ('endh','1','1') : ('endh','1','ε'),
             ('endh','2','2') : ('endh','2','ε'),
@@ -493,7 +492,7 @@ transition = {
             ('endh','>','h') : ('endh','h','ε'),
             ('endh',' ','<') : ('qcekbody','<','ε'),
 
-            ('qh','p','>') : ('qp','ε','Hp'), #H symbol di <h_>
+            ('qhcek','p','>') : ('qp','ε','Hp'), #H symbol di <h_>
             
 
 
@@ -531,12 +530,12 @@ transition = {
             ('qcekbody', '<', '>'): ('qcekbody', 'ε', 'ε'),
             ('qcekbody', 'p', '>'): ('qp', 'ε', '<p'),
             ('qp', ' ', 'p'): ('qatrp', 'ε', 'X'),
-            ('qp', '>', 'p'): ('qp', 'ε', 'X>'),
+            ('qp', '>', 'p'): ('qcekp', 'ε', 'X>'),
             ('qatrp','>','X') :('qp', 'ε', '>'),
             ('qatrp',' ','X') : ('qatrp','ε','ε'),
             ('qp', ' ', '>'): ('qp', 'ε', 'ε'),
             
-            ('qp','<','>') : ('endp','>','ε'),
+            ('qcekp','<','>') : ('endp','>','ε'),
             ('endp','/','X') : ('endp','X','ε'),
             ('endp','p','p') : ('endp','p','ε'),
             ('endp','>','<') : ('qcekbody','<','ε'),
