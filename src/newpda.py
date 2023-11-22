@@ -24,11 +24,11 @@ class PDA:
 
             if transition_tuple is None:
                 print(f"Error: No transition for {transition_key}.")
-                return False
-            # else:
-            #     print(f"Transition tuple found: {transition_tuple}")
+            else:
+                print(f"Transition tuple found: {transition_tuple}")
+                next_state, pop_symbol, push_symbols = transition_tuple
 
-            next_state, pop_symbol, push_symbols = transition_tuple
+           
             if ((self.current_state, symbol, self.stack[-1]) in self.transition and self.current_state in self.states):
                 next_state, pop_symbol, push_symbols = self.transition[(self.current_state, symbol, self.stack[-1])]
 
@@ -57,7 +57,8 @@ class PDA:
             else:
                 if (self.current_state != 'qpetikbody' and self.current_state != 'qpetikhead'and self.current_state != 'qpetikhtml'
                     and self.current_state != 'qpetiktitle' and self.current_state != 'qpetiklinkhead' and self.current_state != 'qkutiplinkhead'
-                     and self.current_state != 'qdiv' and self.current_state != 'qpetikhr' and self.current_state != 'qpetika'):   #Handler ignorance
+                    and self.current_state != 'qdiv' and self.current_state != 'qpetikhr' and self.current_state != 'qpetika' and self.current_state != "qh"
+                    and self.current_state != "qp"and self.current_state != "qpetikdiv" ):   #Handler ignorance
                     print(f"Error: No transition for ({self.current_state}, {symbol}, {self.stack[-1]}).")
                     return False
                 
@@ -86,7 +87,8 @@ states = {'q0','qcek','qhead','endhtml','qatrhtml','qclasshtml','qpetikhtml','qi
           'qclasssrcimg','qidsrcimg','qpetiksrcimg','qstylesrcimg','qaltsrcimg', 'q=srcimg',
           'qbutton','endbutton','qatrbutton','qclassbutton','qidbutton','qpetikbutton','qstylebutton', 'q=button', 'qsubmitbutton', 'qresetbutton', 'q=resetbutton','qbuttonbutton', 'qpetiktypebutton', 'qtypebutton',
           'qform','endform','qatrform','qclassform','qidform','qpetikform','qstyleform', 'q=form', 'qactionform', 'qgetform', 'q=getform','qformform', 'qpetikmethod', 'qmethodform',
-          'qinput','endinput','qatrinput','qclassinput','qidinput','qpetikinput','qstyleinput', 'q=input', 'qnumberinput', 'qcheckboxinput', 'q=emailinput','qemailinput','qpasswordinput', 'qpetiktypeinput', 'qtypeinput'} 
+          'qinput','endinput','qatrinput','qclassinput','qidinput','qpetikinput','qstyleinput', 'q=input', 'qnumberinput', 'qcheckboxinput', 'q=emailinput','qemailinput','qpasswordinput', 'qpetiktypeinput', 'qtypeinput',
+          'qbr'} 
 input_alphabet = {'<','h','t','m','l','>','/'}
 stack_alphabet = {'Z', '1'}
 transition = {
@@ -478,21 +480,26 @@ transition = {
             ('qatrh',' ','X') : ('qatrh','ε', 'ε'),
 
             ('qh',' ','>') : ('qh','ε','ε'),
-            ('qh','<','>') : ('endh','>','ε'),
-            ('endh','/','X') : ('endh','X','ε'),
-            ('endh','h','1') : ('endh','1','ε'),
-            ('endh','h','2') : ('endh','2','ε'),
-            ('endh','h','3') : ('endh','3','ε'),
-            ('endh','h','4') : ('endh','4','ε'),
-            ('endh','h','5') : ('endh','5','ε'),
-            ('endh','h','6') : ('endh','6','ε'),
-            ('endh','1','h') : ('endh','h','ε'),
-            ('endh','2','h') : ('endh','h','ε'),
-            ('endh','3','h') : ('endh','h','ε'),
-            ('endh','4','h') : ('endh','h','ε'),
-            ('endh','5','h') : ('endh','h','ε'),
-            ('endh','6','h') : ('endh','h','ε'),
-            ('endh','>','<') : ('qcekbody','<','ε'),
+            ('qh','<','>') : ('qh','ε','ε'),
+
+            ('qh','/','>') : ('endh','>','ε'),
+            ('endh','h','X') : ('endh','X','ε'),
+            ('endh','1','1') : ('endh','1','ε'),
+            ('endh','2','2') : ('endh','2','ε'),
+            ('endh','3','3') : ('endh','3','ε'),
+            ('endh','4','4') : ('endh','4','ε'),
+            ('endh','5','5') : ('endh','5','ε'),
+            ('endh','6','6') : ('endh','6','ε'),
+            ('endh','>','h') : ('endh','h','ε'),
+            ('endh',' ','<') : ('qcekbody','<','ε'),
+
+            ('qh','p','>') : ('qp','ε','Hp'), #H symbol di <h_>
+            
+
+
+
+
+           
 
 
             #Q Attribute h
@@ -534,6 +541,8 @@ transition = {
             ('endp','p','p') : ('endp','p','ε'),
             ('endp','>','<') : ('qcekbody','<','ε'),
           
+            #Handler 'p' di nesting lain
+            ('endp','>','H') : ('qh','H','ε'), # di dalam nest h
 
             #Q Attribute p
             ('qatrp','c','X') : ('qclassp','ε', 'c'),
@@ -561,8 +570,11 @@ transition = {
             ('qidp','"','X') : ('qpetikp','ε','"'),
             ('qpetikp','"','"') : ('qatrp' , '"','ε'),
             #==============================br==============================
+            ('qbutton','r','b') : ('qbr','b','ε'),
+            ('qbr','>','<'):('qcekbody','<','ε'),
 
             #==============================em==============================
+
             #==============================b==============================
             #==============================abbr==============================
             #==============================strong==============================
