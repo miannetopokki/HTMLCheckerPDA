@@ -53,10 +53,16 @@ class PDA:
                 print(f"Current State: {self.current_state}")
                 print(f"SAAT iNI : ({self.current_state}, {symbol}, {self.stack[-1]}).")
                 print(self.stack)
-            elif (self.current_state != 'qpetikbody' and self.current_state != 'qpetikhead'and self.current_state != 'qpetikhtml'
+            elif (self.current_state != 'qcommentIN' and self.current_state != 'qpetikbody' and self.current_state != 'qpetikhead'and self.current_state != 'qpetikhtml'
                     and self.current_state != 'qpetiktitle' and self.current_state != 'qpetiklinkhead' and self.current_state != 'qkutiplinkhead'
                     and self.current_state != 'qdiv' and self.current_state != 'qpetikhr' and self.current_state != 'qpetika'
-                    and self.current_state != "qpetikdiv" and self.current_state != "qtitle"  and self.current_state != "qhcek" and self.current_state != "qpcek"):   #Handler ignorance
+                    and self.current_state != "qpetikdiv" and self.current_state != "qtitle"  and self.current_state != "qhIN" 
+                    and self.current_state != "qcekscript"and self.current_state != "qpetikp"  and self.current_state != "qpIN"
+                    and self.current_state != "qstrongIN"
+                    and self.current_state != "qabbrIN"
+                    and self.current_state != "qsmallIN"
+                    and self.current_state != "qbIN"
+                    and self.current_state != "qemIN"):   #Handler ignorance
                     print(f"Error: No transition for ({self.current_state}, {symbol}, {self.stack[-1]}).")
                     return False
                 
@@ -70,15 +76,15 @@ class PDA:
         return self.is_accepted()
 
 # Contoh penggunaan
-states = {'q0','qcek','qhead','endhtml','qatrhtml','qclasshtml','qpetikhtml','qidhtml','qstylehtml'
-          ,'qatrbody','qclassbody','qpetikbody','qstylebody','qidbody','qbody','endbody','qcekbody',
+states = {'qcomment','qcommentIN','endcomment','q0','qcek','qhead','endhtml','qatrhtml','qclasshtml','qpetikhtml','qidhtml','qstylehtml',
+          'qatrbody','qclassbody','qpetikbody','qstylebody','qidbody','qbody','endbody','qcekbody',
           'qatrhead','qclasshead','qpetikhead','qidhead','qstylehead,','qcekhead','endhead',
           'qtitle','qatrtitle','endtitle','qclasstitle','qstyletitle','qidtitle','qpetiktitle'
           ,'qlinkhead','qatrlinkhead','qkutiplinkhead','qclasslinkhead','qstylelinkhead','qidlinkhead','qhreflinkhead','qpetiklinkhead',
-          'qscript','qatrscript','qpetikscript','qclassscript','qidscript','qstylescript','endscript','qsrcscript',
+          'qscript','qatrscript','qpetikscript','qclassscript','qidscript','qstylescript','endscript','qsrcscript','qcekscript',
           'qdiv','qatrdiv','enddiv','qpetikdiv','qclassdiv','qiddiv','qstylediv','qcekdiv',
-          'qh','endh','qatrh','qclassh','qidh','qpetikh','qstyleh','qhcek',
-          'qp','qatrp','endp','qclassp','qidp','qpetikp','qstylep','qcekp',
+          'qh','endh','qatrh','qclassh','qidh','qpetikh','qstyleh','qhcek','qhIN',
+          'qp','qatrp','endp','qclassp','qidp','qpetikp','qstylep','qcekp', 'qpIN',
           'qhr','qatrhr','qclasshr','qidhr','qpetikhr','qstylehr', 'q=hr',
           'qa','enda','qatra','qclassa','qida','qpetika','qstylea', 'q=a', 'qhrefa',
           'qimg','qatrimg','qclassimg','qidimg','qpetikimg','qstyleimg', 'qatrsrcimg', 'qsrcimg', 'qaltimg', 'q=img',
@@ -87,29 +93,52 @@ states = {'q0','qcek','qhead','endhtml','qatrhtml','qclasshtml','qpetikhtml','qi
           'qform','endform','qatrform','qclassform','qidform','qpetikform','qstyleform', 'q=form', 'qactionform', 'qgetform', 'q=getform','qformform', 'qpetikmethod', 'qmethodform',
           'qinput','endinput','qatrinput','qclassinput','qidinput','qpetikinput','qstyleinput', 'q=input', 'qnumberinput', 'qcheckboxinput', 'q=emailinput','qemailinput','qpasswordinput', 'qpetiktypeinput', 'qtypeinput',
           'qbr',
-          'qem','qatrem','endem','qclassem','qstyleem','qidem','qcekem','qepetikem',
-          'qsmall','qatrsmall','qclasssmall','qidsmall','qstylesmall','endsmall','qceksmall','qepetiksmall',
-          'qstrong','qatrstrong','qclassstrong','qidstrong','qstylestrong','endstrong','qcekstrong','qepetikstrong',
+          'qem','qatrem','endem','qclassem','qstyleem','qidem','qcekem','qepetikem', 'qemIN',
+          'qsmall','qatrsmall','qclasssmall','qidsmall','qstylesmall','endsmall','qceksmall','qepetiksmall','qsmallIN',
+          'qstrong','qatrstrong','qclassstrong','qidstrong','qstylestrong','endstrong','qcekstrong','qepetikstrong', 'qstrongIN',
           'qtable', 'qcektable','endtable', 'qatrtable','qclasstable','qidtable','qpetiktable','qstyletable', 'qatrsrctable', 'qsrctable', 'qalttable', 'q=table',
           'qtr', 'endtr', 'qatrtr','qclasstr','qidtr','qpetiktr','qstyletr', 'qatrsrctr', 'qsrctr', 'qalttr', 'q=tr', 'endt',
           'qtd', 'endtd', 'qatrtd','qclasstd','qidtd','qpetiktd','qstyletd', 'qatrsrctd', 'qsrctd', 'qalttd', 'q=td',
           'qth', 'endth', 'qatrth','qclassth','qidth','qpetikth','qstyleth', 'qatrsrcth', 'qsrcth', 'qaltth', 'q=th',
-          'qabbr','endabbr','qatrabbr','qclassabr','qidabbr','qpetikabbr','qstyleabbr','qcekabbr'} 
+          'qabbr','endabbr','qatrabbr','qclassabr','qidabbr','qpetikabbr','qstyleabbr','qcekabbr', 'qabbrIN',
+          'qb','endb','qatrb','qclassb','qidb','qpetikb','qcekb','qstyleb' ,'qbIN'} 
 input_alphabet = {'<','h','t','m','l','>','/'}
 stack_alphabet = {'Z', '1'}
 transition = {
+
+            #==============================KOMENTAR==================================
+            # <!-- tes -->
+
+            ('qcomment','-','C') : ('qcomment' ,'ε','!-'), 
+            ('qcomment','-','-') : ('qcommentIN' ,'ε','ε'),
+            ('qcommentIN' ,'-','-') : ('endcomment' ,'-','ε'),
+            ('endcomment' ,'-','!') : ('endcomment' ,'!','ε'),
+            ('endcomment' ,'>','C') : ('endcomment' ,'C','ε'),
+
+
+            ('endcomment' ,' ','[') : ('qhead' ,'[','ε'), #Handling khusus di html
+            ('endcomment' ,' ',']') : ('qcek' ,']','ε'), 
+            ('endcomment' ,' ','{') : ('qcekbody' ,'{','ε'), #Handling khusus di body
+            ('endcomment' ,' ',':') : ('qdiv' ,':','ε'), #Handling khusus di div
+            ('endcomment',' ',';') : ('qpIN',';','ε'), #Handling di nest p
+            ('endcomment',' ','@') : ('qhIN','@','ε'), #Handling di nest h
             
+
+
            
             #==============================HTML==============================
+            ('qhead','!','>') : ('qcomment','ε','[C'), #Komentar di nest html
+            ('qcek','!','>') : ('qcomment','ε',']C'), #Komentar di nest html
+            
             ('q0', '<', 'Z'): ('q0', 'ε', '<'),
             ('q0', 'h', '<'): ('q0', 'ε', 'h'),
             ('q0', 't', 'h'): ('q0', 'ε', 't'),
             ('q0', 'm', 't'): ('q0', 'ε', 'm'),
             ('q0', 'l', 'm'): ('q0', 'ε', 'l'),
-            ('q0','>','l') : ('qcek' ,'ε','X>'),
+            ('q0','>','l') : ('qhead' ,'ε','X>'),
             ('q0',' ','l'): ('qatrhtml','ε','X'),
             ('qatrhtml',' ','X') : ('qatrhtml' , 'ε','ε'),
-            ('qatrhtml','>','X'): ('qcek','ε','>'),
+            ('qatrhtml','>','X'): ('qhead','ε','>'),
 
 
             ('endbody', '<', '>'): ('endhtml', '>', 'ε'),
@@ -148,10 +177,12 @@ transition = {
 
 
             #==============================BODY==============================
-          
+            ('qcekbody','!','>') : ('qcomment','ε','{C'), #Komentar di nest body
+            
+
             ('qcek',' ','>'):('qcek','ε','ε'),
-            ('qcek', '<', '>'): ('qcek', 'ε', '<'),
-            ('qcek', 'b', '<'): ('qbody', 'ε', 'b'),
+            ('qcek', '<', '>'): ('qcek', 'ε', 'ε'),
+            ('qcek', 'b', '>'): ('qbody', 'ε', '<b'),
             ('qbody', 'o', 'b'): ('qbody', 'ε', 'o'),
             ('qbody', 'd', 'o'): ('qbody', 'ε', 'd'),
             ('qbody', 'y', 'd'): ('qbody', 'ε', 'y'),
@@ -167,7 +198,7 @@ transition = {
             ('endbody', 'd', 'd'): ('endbody', 'd', 'ε'),
             ('endbody', 'y', 'o'): ('endbody', 'o', 'ε'),
             ('endbody', '>', 'b'): ('endbody', 'b', 'ε'),
-            ('endbody', ' ', '<'): ('endbody', '<', 'ε'),
+            ('endbody', ' ', '<'): ('endbody', '<', 'ε'), #akhir body pasti /html
          
           
 
@@ -199,8 +230,10 @@ transition = {
            
 
             #==============================HEAD============================
-            ('qcek', '<', '>'): ('qcek', 'ε', '<'),
-            ('qcek', 'h', '<'): ('qhead', 'ε', 'h'),
+     
+            ('qhead',' ','>') : ('qhead' ,'ε','ε'),
+            ('qhead', '<', '>'): ('qhead', 'ε', 'ε'),
+            ('qhead', 'h', '>'): ('qhead', 'ε', '<h'),
             ('qhead', 'e', 'h'): ('qhead', 'ε', 'e'),
             ('qhead', 'a', 'e'): ('qhead', 'ε', 'a'),
             ('qhead', 'd', 'a'): ('qhead', 'ε', 'd'),
@@ -208,6 +241,7 @@ transition = {
             ('qhead', ' ','d') : ('qatrhead' ,'ε','X'),
             ('qatrhead',' ','X') : ('qatrhead', 'ε' , 'ε'),
             ('qatrhead', '>', 'X'): ('qcekhead', 'ε', '>'),
+
 
 
             ('qcekhead', '/', '>'): ('endhead', '>', 'ε'),
@@ -298,7 +332,8 @@ transition = {
             #==============================LINK============================ (HEAD,BODY)
             ('qcekhead',' ','>') : ('qcekhead','ε','ε'), #handle spasi antar tag
             ('qcekhead', '<', '>'): ('qcekhead', 'ε', 'ε'),
-            ('qcekhead', 'l', '>'): ('qlinkhead', 'ε', '<l'),
+            ('qcekbody', 'l', '>'): ('qlinkhead', 'ε', '<l'),
+            ('qcekhead', 'l', '>'): ('qlinkhead', 'ε', ']<l'),
             ('qlinkhead', 'i', 'l'): ('qlinkhead', 'ε', 'i'),
             ('qlinkhead', 'n', 'i'): ('qlinkhead', 'ε', 'n'),
             ('qlinkhead', 'k', 'n'): ('qlinkhead', 'ε', 'k'),
@@ -310,9 +345,12 @@ transition = {
             ('qlinkhead','"', '<'): ('qkutiplinkhead','ε' ,'"'),
             ('qkutiplinkhead','"', '"'): ('qlinkhead','"' ,'ε'),
             ('qlinkhead',' ','<') : ('qatrlinkhead','ε','ε'),
-            ('qlinkhead','>','<') : ('qcekhead','<','ε'),
+            ('qlinkhead','>','<') : ('qlinkhead','<','ε'),
             ('qatrlinkhead','>','<') : ('qcekhead','<','ε'),
             ('qatrlinkhead',' ','<') : ('qatrlinkhead','ε', 'ε'), #Handler apabila ada spasi di atribute
+
+            ('qlinkhead',' ',']') : ('qcekhead',']','ε'), #handler kalo link ada di head
+            ('qlinkhead',' ','>') : ('qcekbody','ε','ε'), #handler kalo link ada di body
 
             #Q Attribute Link
             ('qatrlinkhead','h','<') : ('qhreflinkhead','ε', 'h'),
@@ -352,19 +390,20 @@ transition = {
              #==============================SCRIPT============================ (HEAD,BODY)
             ('qcekhead',' ','>') : ('qcekhead','ε','ε'), #handle spasi antar tag
             ('qcekhead', '<', '>'): ('qcekhead', 'ε', 'ε'),
-            ('qcekhead', 's', '>'): ('qscript', 'ε', '<s'),
+            ('qcekhead', 's', '>'): ('qscript', 'ε', ']<s'),
+            ('qcekbody', 'c', 's'): ('qscript', 'ε', 'c'),
             ('qscript', 'c', 's'): ('qscript', 'ε', 'c'),
             ('qscript', 'r', 'c'): ('qscript', 'ε', 'r'),
             ('qscript', 'i', 'r'): ('qscript', 'ε', 'i'),
             ('qscript', 'p', 'i'): ('qscript', 'ε', 'p'),
             ('qscript', 't', 'p'): ('qscript', 'ε', 't'),
             ('qscript', ' ', 't'): ('qatrscript', 'ε', 'X'),
-            ('qscript', '>', 't'): ('qscript', 'ε', 'X>'),
-            ('qatrscript','>','X') : ('qscript','ε','>'),
+            ('qscript', '>', 't'): ('qcekscript', 'ε', 'X>'),
+            ('qatrscript','>','X') : ('qcekscript','ε','>'),
             ('qatrscript',' ','X') : ('qatrscript','ε', 'ε'), #Handler apabila ada spasi di atribute
 
-            ('qscript',' ','>') : ('qscript','ε','ε'),
-            ('qscript','<','>') : ('endscript','>','ε'),
+            ('qcekscript',' ','>') : ('qcekscript','ε','ε'),
+            ('qcekscript','<','>') : ('endscript','>','ε'),
             ('endscript','/','X') : ('endscript','X','ε'),
             ('endscript','s','t') : ('endscript','t','ε'),
             ('endscript','c','p') : ('endscript','p','ε'),
@@ -372,8 +411,12 @@ transition = {
             ('endscript','i','r') : ('endscript','r','ε'),
             ('endscript','p','c') : ('endscript','c','ε'),
             ('endscript','t','s') : ('endscript','s','ε'),
-            ('endscript','>','<') : ('qcekhead','<','ε'),
-            ('endscript', ' ', '>'): ('endscript', 'ε', 'ε'),
+            ('endscript','>','<') : ('endscript','<','ε'), 
+            ('endscript', ' ', ']'): ('qcekhead', ']', 'ε'), #script di dalam head
+            ('endscript', ' ', '>'): ('qcekbody', 'ε', 'ε'), #script di dalem body
+
+
+            ('endscript','>','D') : ('qdiv','D','ε'),  #script di dalam div
 
              #Q Attribute script
             ('qatrscript','c','X') : ('qclassscript','ε', 'c'),
@@ -408,7 +451,10 @@ transition = {
             ('qsrcscript','"','X') : ('qpetikscript','ε','"'),
             ('qpetikscript','"','"') : ('qatrscript' , '"','ε'),
 
-         #==============================DIV==============================(BODY) patokand di body
+         #==============================DIV==============================(BODY) 
+            ('qcekdiv','!','>') : ('qcomment','ε',':C'), #Komentar di nest div
+
+        
            ('qcekbody', '<', '>'): ('qcekbody', 'ε', 'ε'),
            ('qcekbody', 'd', '>'): ('qdiv', 'ε', 'D<d'),
            ('qdiv', 'i', 'd'): ('qdiv', 'ε', 'i'),
@@ -425,6 +471,7 @@ transition = {
 
            ('qcekdiv','p','>') : ('qp','ε','Dp'), #Ada <p> di dalam div
            ('qcekdiv','h','>') : ('qh','ε','Dh'), #ada <h> di dlaam div
+           ('qcekdiv','s','>') : ('qcekbody','ε','Ds'), #ada <small>  atau <strong> atau <script> di dlaam div
 
            
            ('qdiv','<','>') : ('qcekdiv','ε','ε'),
@@ -464,6 +511,9 @@ transition = {
             ('qiddiv','"','X') : ('qpetikdiv','ε','"'),
             ('qpetikdiv','"','"') : ('qatrdiv' , '"','ε'),
              #==============================h1,h2,h3,h4,h5,h6==============================
+            ('qhcek','!','>') : ('qcomment','ε','@C'), #Komentar di nest h
+
+
             ('qcekbody', '<', '>'): ('qcekbody', 'ε', 'ε'),
             ('qcekbody', 'h', '>'): ('qh', 'ε', '<h'),
             ('qh', '1', 'h'): ('qh', 'ε', '1'),
@@ -479,18 +529,18 @@ transition = {
             ('qh',' ','4') : ('qatrh','ε','X'),
             ('qh',' ','5') : ('qatrh','ε','X'),
             ('qh',' ','6') : ('qatrh','ε','X'),
-            ('qh' ,'>','1') : ('qh','ε','X>'),
-            ('qh' ,'>','2') : ('qh','ε','X>'),
-            ('qh' ,'>','3') : ('qh','ε','X>'),
-            ('qh' ,'>','4') : ('qh','ε','X>'),
-            ('qh' ,'>','5') : ('qh','ε','X>'),
-            ('qh' ,'>','6') : ('qh','ε','X>'),
+            ('qh' ,'>','1') : ('qhIN','ε','X>'),
+            ('qh' ,'>','2') : ('qhIN','ε','X>'),
+            ('qh' ,'>','3') : ('qhIN','ε','X>'),
+            ('qh' ,'>','4') : ('qhIN','ε','X>'),
+            ('qh' ,'>','5') : ('qhIN','ε','X>'),
+            ('qh' ,'>','6') : ('qhIN','ε','X>'),
             ('qatrh','>','X') : ('qhcek','ε','>'),
             ('qatrh',' ','X') : ('qatrh','ε', 'ε'),
 
        
-            ('qh',' ','>') : ('qh','ε','ε'),
-            ('qh','<','>') : ('qhcek','ε','ε'),
+            ('qhIN',' ','>') : ('qhIN','ε','ε'), #Isi string bebaas
+            ('qhIN','<','>') : ('qhcek','ε','ε'), 
 
             ('qhcek','/','>') : ('endh','>','ε'),
             ('endh','h','X') : ('endh','X','ε'),
@@ -540,20 +590,24 @@ transition = {
             ('qidh','"','X') : ('qpetikh','ε','"'),
             ('qpetikh','"','"') : ('qatrh' , '"','ε'),
              #==============================p==============================
+            ('qcekp','!','>') : ('qcomment','ε',';C'), #Komentar di nest p
+
             ('qcekbody', '<', '>'): ('qcekbody', 'ε', 'ε'),
             ('qcekbody', 'p', '>'): ('qp', 'ε', '<p'), #p sebagai parent nest
             ('qp', ' ', 'p'): ('qatrp', 'ε', 'X'),
-            ('qp', '>', 'p'): ('qp', 'ε', 'X>'),
-            ('qatrp','>','X') :('qp', 'ε', '>'),
+            ('qp', '>', 'p'): ('qpIN', 'ε', 'X>'),
+            ('qatrp','>','X') :('qpIN', 'ε', '>'),
             ('qatrp',' ','X') : ('qatrp','ε','ε'),
             ('qp', ' ', '>'): ('qp', 'ε', 'ε'),
             
-            
-            ('qcekp','e','>') : ('qem','ε','Pe'),
-            ('qcekp','s','>') : ('qcekbody','ε','Ps'),
+            #CEK ISI NESTING P
+            ('qcekp','e','>') : ('qem','ε','Pe'), #cek em
+            ('qcekp','s','>') : ('qcekbody','ε','Ps'), #cek strong atau samll
             ('qcekp','a','>') : ('qa','ε','Pa'), #cek a atau abbr
+            ('qcekp','b','>') : ('qb','ε','Pb'),
 
-            ('qp','<','>') : ('qcekp','ε','ε'),
+
+            ('qpIN','<','>') : ('qcekp','ε','ε'),
             ('qcekp','<','>') : ('qcekp','ε','ε'),
             ('qcekp','/','>') : ('endp','>','ε'),
             ('endp','p','X') : ('endp','X','ε'),
@@ -562,7 +616,7 @@ transition = {
             
           
             #Handler 'p' di nesting lain
-            ('endp',' ','H') : ('qh','H','ε'), # di dalam nest h
+            ('endp',' ','H') : ('qhIN','H','ε'), # di dalam nest h
 
             ('endp',' ','P') : ('qcekbody','P','ε'),
 
@@ -601,14 +655,14 @@ transition = {
             ('qcekbody','<','>') : ('qcekbody','ε','ε'),
             ('qcekbody','e','>') : ('qem','ε','<e'),
             ('qem','m','e') : ('qem','ε','m'),
-            ('qem','>','m') : ('qcekem','ε','X>'),
+            ('qem','>','m') : ('qemIN','ε','X>'),
             ('qem',' ','m') : ('qatrem','ε','X'),
-            ('qatrem','>','X') : ('qcekem','ε','>'),
+            ('qatrem','>','X') : ('qemIN','ε','>'),
 
             
 
-            ('qcekem',' ','>') : ('qcekem','ε','ε'),
-            ('qcekem','<','>') : ('qcekem','ε','ε'),
+            ('qemIN',' ','>') : ('qemIN','ε','ε'),
+            ('qemIN','<','>') : ('qcekem','ε','ε'),
             ('qcekem','/','>') : ('endem','>','ε'),
             ('endem','e','X') : ('endem','X','ε'),
             ('endem','m','m') : ('endem','m','ε'),
@@ -654,20 +708,68 @@ transition = {
             
 
             #==============================b==============================
+            ('qcekbody', 'b', '>'): ('qb', 'ε', '<b'), # <b> saja, bisa juga <button>
+            ('qb',' ','b') : ('qatrb', 'ε','X'),
+            ('qb','>','b') : ('qbIN','ε','X>'),
+            ('qbIN',' ','>') : ('qbIN','ε','ε'),
+            ('qatrb','>','X') : ('qbIN','ε','>'),
+
+            ('qbIN','<','>') : ('qcekb','ε','ε'),
+            ('qcekb','<','>') : ('qcekb','ε','ε'),
+            ('qcekb','/','>') : ('endb','>','ε'),
+            ('endb','b','X') : ('endb','X','ε'),
+            ('endb','>','b') : ('endb','b','ε'),
+            ('endb',' ','<') : ('endb','<','ε'),
+  
+
+            ('endb',' ','<') : ('qcekbody','<','ε'), #didalam body
+            ('endb',' ','P') : ('qpIN','P','ε'), #didalam p
+
+            
+            #Attribute b
+            ('qatrb',' ','X') : ('qatrb','ε','ε'),
+            ('qatrb','c','X') : ('qclassb','ε', 'c'),
+            ('qclassb','l','c') : ('qclassb','ε','l'),
+            ('qclassb','a','l') : ('qclassb','ε','a'),
+            ('qclassb','s','a') : ('qclassb','a','ε'),
+            ('qclassb','s','l') : ('qclassb','l','ε'),
+            ('qclassb','=','c') : ('qclassb','c','ε'),
+            ('qclassb','"','X') : ('qpetikb','ε','"'),
+            ('qpetikb','"','"') : ('qatrb' , '"','ε'),
+
+            ('qatrb','s','X') : ('qstyleb','ε', 's'),
+            ('qstyleb','t','s') : ('qstyleb','ε','t'),
+            ('qstyleb','y','t') : ('qstyleb','ε','y'),
+            ('qstyleb','l','y') : ('qstyleb','y','ε'),
+            ('qstyleb','e','t') : ('qstyleb','t','ε'),
+            ('qstyleb','=','s') : ('qstyleb','s','ε'),
+            ('qstyleb','"','X') : ('qpetikb','ε','"'),
+            ('qpetikb','"','"') : ('qatrb' , '"','ε'),
+
+            
+            ('qatrb','i','X') : ('qidb','ε', 'i'),
+            ('qidb','d','i') : ('qidb','i','ε'),
+            ('qidb','=','X') : ('qidb','ε','ε'),
+            ('qidb','"','X') : ('qpetikb','ε','"'),
+            ('qpetikb','"','"') : ('qatrb' , '"','ε'),
+
+            
+
+
             #==============================abbr==============================
             ('qcekbody','<','>') : ('qcekbody','ε','ε'),
             ('qcekbody', 'a', '>'): ('qa', 'ε', '<a'),
             ('qa','b','a') : ('qabbr' ,'ε', 'b'), #handling dari <a> ke <abbr> 
             ('qabbr','b','b') : ('qabbr','ε','b'),
             ('qabbr','r','b') : ('qabbr','ε','r'),
-            ('qabbr','>','r') : ('qabbr','ε','X>'),
+            ('qabbr','>','r') : ('qabbrIN','ε','X>'),
             ('qabbr',' ','l') : ('qatrabbr','ε','X'),
-            ('qatrabbr','>','X') : ('qabbr','ε','>'),
-            ('qabbr',' ','>') : ('qabbr','ε','ε'),
+            ('qatrabbr','>','X') : ('qabbrIN','ε','>'),
+            ('qabbrIN',' ','>') : ('qabbrIN','ε','ε'),
 
 
 
-            ('qabbr','<','>') : ('qcekabbr','ε','ε'),
+            ('qabbrIN','<','>') : ('qcekabbr','ε','ε'),
             ('qcekabbr','<','>') : ('qcekabbr','ε','ε'),
             ('qcekabbr','/','>') : ('endabbr','>','ε'),
             ('endabbr','a','X') : ('endabbr','X','ε'),
@@ -678,7 +780,9 @@ transition = {
             ('endabbr','>','s') : ('endabbr','s','ε'),
 
             ('endabbr',' ','<') : ('qcekbody','<','ε'), #didalam body
-            ('endabbr',' ','P') : ('qp','P','ε'), #didalam p
+            ('endabbr',' ','P') : ('qpIN','P','ε'), #didalam p
+
+            
 
 
 
@@ -706,8 +810,8 @@ transition = {
             ('qatrabbr','i','X') : ('qidabbr','ε', 'i'),
             ('qidabbr','d','i') : ('qidabbr','i','ε'),
             ('qidabbr','=','X') : ('qidabbr','ε','ε'),
-            ('qidabbr','"','X') : ('qepetikabbr','ε','"'),
-            ('qepetikabbr','"','"') : ('qatrabbr' , '"','ε'),
+            ('qidabbr','"','X') : ('qpetikabbr','ε','"'),
+            ('qpetikabbr','"','"') : ('qatrabbr' , '"','ε'),
             #==============================strong==============================
             ('qcekbody','<','>') : ('qcekbody','ε','ε'),
             ('qcekbody','s','>') : ('qcekbody','ε','<s'),
@@ -716,15 +820,15 @@ transition = {
             ('qstrong','o','r') : ('qstrong','ε','o'),
             ('qstrong','n','o') : ('qstrong','ε','n'),
             ('qstrong','g','n') : ('qstrong','ε','g'),
-            ('qstrong','>','g') : ('qstrong','ε','X>'),
+            ('qstrong','>','g') : ('qstrongIN','ε','X>'),
             ('qstrong',' ','l') : ('qatrstrong','ε','X'),
-            ('qatrstrong','>','X') : ('qstrong','ε','>'),
-            ('qstrong',' ','>') : ('qstrong','ε','ε'),
+            ('qatrstrong','>','X') : ('qstrongIN','ε','>'),
+            ('qstrongIN',' ','>') : ('qstrongIN','ε','ε'),
 
 
             ('qcekstrong','e','>') : ('qem','ε','Te'),
 
-            ('qstrong','<','>') : ('qcekstrong','ε','ε'),
+            ('qstrongIN','<','>') : ('qcekstrong','ε','ε'),
             ('qcekstrong','<','>') : ('qcekstrong','ε','ε'),
             ('qcekstrong','/','>') : ('endstrong','>','ε'),
             ('endstrong','s','X') : ('endstrong','X','ε'),
@@ -773,17 +877,17 @@ transition = {
             ('qsmall','a','m') : ('qsmall','ε','a'),
             ('qsmall','l','a') : ('qsmall','ε','l'),
             ('qsmall','l','l') : ('qsmall','ε','l'),
-            ('qsmall','>','l') : ('qsmall','ε','X>'),
+            ('qsmall','>','l') : ('qsmallIN','ε','X>'),
             ('qsmall',' ','l') : ('qatrsmall','ε','X'),
-            ('qatrsmall','>','X') : ('qsmall','ε','>'),
-            ('qsmall',' ','>') : ('qsmall','ε','ε'),
+            ('qatrsmall','>','X') : ('qsmallIN','ε','>'),
+            ('qsmallIN',' ','>') : ('qsmallIN','ε','ε'),
 
             ('endsmall',' ','P') : ('qcekp','P','ε'), #didalam nest 'p'
 
 
             ('qceksmall','e','>') : ('qem','ε','Se'),
 
-            ('qsmall','<','>') : ('qceksmall','ε','ε'),
+            ('qsmallIN','<','>') : ('qceksmall','ε','ε'),
             ('qceksmall','<','>') : ('qceksmall','ε','ε'),
             ('qceksmall','/','>') : ('endsmall','>','ε'),
             ('endsmall','s','X') : ('endsmall','X','ε'),
@@ -996,8 +1100,7 @@ transition = {
             
 
             #==============================button===============================
-            ('qcekbody', 'b', '>'): ('qbutton', 'ε', '<b'),
-            ('qbutton', 'u', 'b'): ('qbutton', 'ε', 'u'),
+            ('qb', 'u', 'b'): ('qbutton', 'ε', 'u'), #awal bisa aja <b> pindah ke <button>
             ('qbutton', 't', 'u'): ('qbutton', 'ε', 't'),
             ('qbutton', 't', 't'): ('qbutton', 'ε', 't'),
             ('qbutton', 'o', 't'): ('qbutton', 'ε', 'o'),
