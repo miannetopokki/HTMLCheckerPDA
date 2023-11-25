@@ -1412,9 +1412,21 @@ with open(file_path, 'r') as file:
     # Membaca seluruh konten file
     html_content = file.read()
 
+result_string = ""
+inside_tag = False
+
+for char in html_content:
+    if char == '<':
+        inside_tag = True
+        result_string += ' ' + char
+    elif char == '>':
+        inside_tag = False
+        result_string += char + ' '
+    else:
+        result_string += char
 # Sekarang, variabel html_content berisi seluruh string dari file HTML
-splittedcontent = html_content.split()
-result_string = " ".join(splittedcontent)
+
+result_string = " ".join(result_string.split())
 
 
 #======================================CREATE FILE======================#
