@@ -56,7 +56,7 @@ class PDA:
             elif (self.current_state != 'qpetikbody' and self.current_state != 'qpetikhead'and self.current_state != 'qpetikhtml'
                     and self.current_state != 'qpetiktitle' and self.current_state != 'qpetiklinkhead' and self.current_state != 'qkutiplinkhead'
                     and self.current_state != 'qdiv' and self.current_state != 'qpetikhr' and self.current_state != 'qpetika'
-                    and self.current_state != "qpetikdiv" and self.current_state != "qtitle"  and self.current_state != "qh" and self.current_state != "qp"):   #Handler ignorance
+                    and self.current_state != "qpetikdiv" and self.current_state != "qtitle"  and self.current_state != "qhcek" and self.current_state != "qpcek"):   #Handler ignorance
                     print(f"Error: No transition for ({self.current_state}, {symbol}, {self.stack[-1]}).")
                     return False
                 
@@ -76,7 +76,7 @@ states = {'q0','qcek','qhead','endhtml','qatrhtml','qclasshtml','qpetikhtml','qi
           'qtitle','qatrtitle','endtitle','qclasstitle','qstyletitle','qidtitle','qpetiktitle'
           ,'qlinkhead','qatrlinkhead','qkutiplinkhead','qclasslinkhead','qstylelinkhead','qidlinkhead','qhreflinkhead','qpetiklinkhead',
           'qscript','qatrscript','qpetikscript','qclassscript','qidscript','qstylescript','endscript','qsrcscript',
-          'qdiv','qatrdiv','enddiv','qpetikdiv','qclassdiv','qiddiv','qstylediv',
+          'qdiv','qatrdiv','enddiv','qpetikdiv','qclassdiv','qiddiv','qstylediv','qcekdiv',
           'qh','endh','qatrh','qclassh','qidh','qpetikh','qstyleh','qhcek',
           'qp','qatrp','endp','qclassp','qidp','qpetikp','qstylep','qcekp',
           'qhr','qatrhr','qclasshr','qidhr','qpetikhr','qstylehr', 'q=hr',
@@ -93,7 +93,8 @@ states = {'q0','qcek','qhead','endhtml','qatrhtml','qclasshtml','qpetikhtml','qi
           'qtable', 'qcektable','endtable', 'qatrtable','qclasstable','qidtable','qpetiktable','qstyletable', 'qatrsrctable', 'qsrctable', 'qalttable', 'q=table',
           'qtr', 'endtr', 'qatrtr','qclasstr','qidtr','qpetiktr','qstyletr', 'qatrsrctr', 'qsrctr', 'qalttr', 'q=tr', 'endt',
           'qtd', 'endtd', 'qatrtd','qclasstd','qidtd','qpetiktd','qstyletd', 'qatrsrctd', 'qsrctd', 'qalttd', 'q=td',
-          'qth', 'endth', 'qatrth','qclassth','qidth','qpetikth','qstyleth', 'qatrsrcth', 'qsrcth', 'qaltth', 'q=th'} 
+          'qth', 'endth', 'qatrth','qclassth','qidth','qpetikth','qstyleth', 'qatrsrcth', 'qsrcth', 'qaltth', 'q=th',
+          'qabbr','endabbr','qatrabbr','qclassabr','qidabbr','qpetikabbr','qstyleabbr','qcekabbr'} 
 input_alphabet = {'<','h','t','m','l','>','/'}
 stack_alphabet = {'Z', '1'}
 transition = {
@@ -418,13 +419,16 @@ transition = {
            ('qatrdiv',' ','X') : ('qatrdiv','ε','ε'),
            ('qdiv', ' ', '>'): ('qdiv', 'ε', 'ε'),
 
-           ('qdiv', '<', '>'): ('qdiv', 'ε', 'ε'),
-           ('qdiv', 'd', '>'): ('qdiv', 'ε', '<d'),
+       
+           ('qcekdiv', 'd', '>'): ('qdiv', 'ε', '<d'),
            ('qdiv','<','D') : ('qcekbody','D','ε'), #POP D agar balik ke body
 
+           ('qcekdiv','p','>') : ('qp','ε','Dp'), #Ada <p> di dalam div
+           ('qcekdiv','h','>') : ('qh','ε','Dh'), #ada <h> di dlaam div
+
            
-           ('qdiv','<','>') : ('qdiv','ε','ε'),
-           ('qdiv','/','>') : ('enddiv','>','ε'),
+           ('qdiv','<','>') : ('qcekdiv','ε','ε'),
+           ('qcekdiv','/','>') : ('enddiv','>','ε'),
            ('enddiv','d','X') : ('enddiv','X','ε'),
            ('enddiv','i','v') : ('enddiv','v','ε'),
            ('enddiv','v','i') : ('enddiv','i','ε'),
@@ -500,6 +504,8 @@ transition = {
             ('endh',' ','<') : ('qcekbody','<','ε'),
 
             ('qhcek','p','>') : ('qp','ε','Hp'), #H symbol di <h_>
+
+            ('endh',' ','D') : ('qdiv','D','ε'), #H di dalam nest div
             
 
 
@@ -545,6 +551,7 @@ transition = {
             
             ('qcekp','e','>') : ('qem','ε','Pe'),
             ('qcekp','s','>') : ('qcekbody','ε','Ps'),
+            ('qcekp','a','>') : ('qa','ε','Pa'), #cek a atau abbr
 
             ('qp','<','>') : ('qcekp','ε','ε'),
             ('qcekp','<','>') : ('qcekp','ε','ε'),
@@ -558,6 +565,8 @@ transition = {
             ('endp',' ','H') : ('qh','H','ε'), # di dalam nest h
 
             ('endp',' ','P') : ('qcekbody','P','ε'),
+
+            ('endp',' ','D') : ('qdiv','D','ε'), # didalam div
 
             #Q Attribute p
             ('qatrp','c','X') : ('qclassp','ε', 'c'),
@@ -647,13 +656,11 @@ transition = {
             #==============================b==============================
             #==============================abbr==============================
             ('qcekbody','<','>') : ('qcekbody','ε','ε'),
-            ('qcekbody','s','>') : ('qcekbody','ε','<s'),
-            ('qcekbody','t','s') : ('qabbr','ε','t'),
-            ('qabbr','r','t') : ('qabbr','ε','r'),
-            ('qabbr','o','r') : ('qabbr','ε','o'),
-            ('qabbr','n','o') : ('qabbr','ε','n'),
-            ('qabbr','g','n') : ('qabbr','ε','g'),
-            ('qabbr','>','g') : ('qabbr','ε','X>'),
+            ('qcekbody', 'a', '>'): ('qa', 'ε', '<a'),
+            ('qa','b','a') : ('qabbr' ,'ε', 'b'), #handling dari <a> ke <abbr> 
+            ('qabbr','b','b') : ('qabbr','ε','b'),
+            ('qabbr','r','b') : ('qabbr','ε','r'),
+            ('qabbr','>','r') : ('qabbr','ε','X>'),
             ('qabbr',' ','l') : ('qatrabbr','ε','X'),
             ('qatrabbr','>','X') : ('qabbr','ε','>'),
             ('qabbr',' ','>') : ('qabbr','ε','ε'),
@@ -663,13 +670,16 @@ transition = {
             ('qabbr','<','>') : ('qcekabbr','ε','ε'),
             ('qcekabbr','<','>') : ('qcekabbr','ε','ε'),
             ('qcekabbr','/','>') : ('endabbr','>','ε'),
-            ('endabbr','s','X') : ('endabbr','X','ε'),
-            ('endabbr','t','g') : ('endabbr','g','ε'),
-            ('endabbr','r','n') : ('endabbr','n','ε'),
-            ('endabbr','o','o') : ('endabbr','o','ε'),
-            ('endabbr','n','r') : ('endabbr','r','ε'),
-            ('endabbr','g','t') : ('endabbr','t','ε'),
+            ('endabbr','a','X') : ('endabbr','X','ε'),
+            ('endabbr','b','r') : ('endabbr','r','ε'),
+            ('endabbr','b','b') : ('endabbr','b','ε'),
+            ('endabbr','r','b') : ('endabbr','b','ε'),
+            ('endabbr','>','a') : ('endabbr','a','ε'),
             ('endabbr','>','s') : ('endabbr','s','ε'),
+
+            ('endabbr',' ','<') : ('qcekbody','<','ε'), #didalam body
+            ('endabbr',' ','P') : ('qp','P','ε'), #didalam p
+
 
 
 
@@ -853,7 +863,7 @@ transition = {
 
 
             #==============================a===============================
-            ('qcekbody', 'a', '>'): ('qa', 'ε', '<a'),
+            
             ('qa', ' ', 'a'): ('qatra', 'ε', 'X'),
             ('qa', '>', 'a'): ('qa', 'ε', 'X>'),
             ('qatra','>','X') :('qa', 'ε', '>'),
@@ -865,6 +875,8 @@ transition = {
             ('enda','/','X') : ('enda','X','ε'),
             ('enda','a','a') : ('enda','a','ε'),
             ('enda','>','<') : ('qcekbody','<','ε'),
+
+            ('enda','>','P') : ('qp','P','ε'), # didalam nest <p>
 
             #atribut a
             ('qatra','h','X') : ('qhrefa','ε', 'h'),
