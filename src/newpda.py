@@ -78,7 +78,8 @@ class PDA:
                     and self.current_state != "qpetikhr"
                     and self.current_state != "qpetika"
                     and self.current_state != "qbutton"
-                    and self.current_state != "qformIN"):   #Handler ignorance
+                    and self.current_state != "qformIN"
+                    and self.current_state != "qa"):   #Handler ignorance
                     print(f"Error: No transition for ({self.current_state}, {symbol}, {self.stack[-1]}).")
                     return False
                 
@@ -1000,6 +1001,7 @@ transition = {
             ('enda','>','<') : ('qcekbody','<','ε'),
 
             ('enda','>','P') : ('qp','P','ε'), # didalam nest <p>
+            ('enda','>','F') : ('qformIN','F','ε'), # didalam nest form
 
             #atribut a
             ('qatra','h','X') : ('qhrefa','ε', 'h'),
@@ -1228,6 +1230,7 @@ transition = {
             ('qcekform','d','F') : ('qdiv','ε','Fd'),
             ('qcekform','i','F') : ('qimg','ε','Fi'),
             ('qcekform','h','F') : ('qh','ε','h'),
+            ('qcekform','a','F') : ('qa','ε','Fa'),
 
             #atribut form
             ('qatrform','c','X') : ('qclassform','ε', 'c'),
@@ -1289,13 +1292,16 @@ transition = {
             ('qinput', 'p', 'n'): ('qinput', 'n', 'ε'),
             ('qinput', 'u', 'i'): ('qinput', 'i', 'ε'),
             ('qinput', 't', 'F'): ('qinput', 'F', 'ε'),
+            ('qinput', 't', '<'): ('qinput', '<', 'ε'),
             ('qinput', ' ', '>'): ('qatrinput', 'ε', 'X'),
+            ('qinput', ' ', 'F'): ('qatrinput', 'ε', 'X'),
             ('qinput', '>', '>'): ('qcekbody', 'ε', 'ε'),
             ('qatrinput','>','X') :('qcekbody', 'X', 'ε'),
             ('qatrinput',' ','X') : ('qatrinput','ε','ε'),
             ('qinput', ' ', 'X'): ('qinput', 'ε', 'ε'),
+            ('qcekbody', ' ', 'F'): ('qformIN', 'ε', 'ε'),
 
-            ('qinput', '>', 'F'): ('qcekform', 'ε', 'ε'), #handling klo di form
+            ('qinput', '>', 'F'): ('qformIN', 'F', 'ε'), #handling klo di form
 
             ('qatrinput','c','X') : ('qclassinput','ε', 'c'),
             ('qclassinput','l','c') : ('qclassinput','ε','l'),
