@@ -106,15 +106,25 @@ if len(sys.argv) != 3:
 pda_file = sys.argv[1]
 input_file = sys.argv[2]
 
+# Mendapatkan jalur lengkap direktori saat ini
+current_directory = os.path.dirname(os.path.abspath(__file__))
+
+
+# Membuat jalur lengkap untuk file input di dalam folder 'test'
+input_file_path = os.path.join(current_directory, '..', 'test', input_file)
+
+
+# Periksa apakah file input ada di dalam folder 'test'
+if not os.path.exists(input_file_path):
+    print(f"Error: File '{input_file}' not found in the 'test' folder.")
+    sys.exit(1)
+
 
 # Periksa apakah kedua file eksis sebelum melanjutkan
 if not os.path.exists(pda_file):
     print(f"Error: File '{pda_file}' not found.")
     sys.exit(1)
 
-if not os.path.exists(input_file):
-    print(f"Error: File '{input_file}' not found.")
-    sys.exit(1)
 
 # Baca isi dari file pda_file dan input_file
 with open(pda_file, 'r') as file:
@@ -125,7 +135,7 @@ exec(pda_content)
 pda = PDA(states, input_alphabet, stack_alphabet, transition, start_state, initial_stack_symbol)
 
 
-with open(input_file, 'r') as file:
+with open(input_file_path, 'r') as file:
     # Membaca seluruh konten file
     html_content = file.read()
 
