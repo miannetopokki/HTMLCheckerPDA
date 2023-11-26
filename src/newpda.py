@@ -67,6 +67,7 @@ class PDA:
                     and self.current_state != "qpetikbutton"
                     and self.current_state != "qpetikform"
                     and self.current_state != "qpetiktable"
+                    and self.current_state != "qpetikh"
                     and self.current_state != "qpetiktd"
                     and self.current_state != "qpetikth"
                     and self.current_state != "qpetiktr"
@@ -108,7 +109,7 @@ states = {'qcomment','qcommentIN','endcomment','q0','qcek','qhead','endhtml','qa
           'qclasssrcimg','qidsrcimg','qpetiksrcimg','qstylesrcimg','qaltsrcimg', 'q=srcimg',
           'qbutton','endbutton','qatrbutton','qclassbutton','qidbutton','qpetikbutton','qstylebutton','q=typebutton', 'q=button', 'qsubmitbutton', 'qresetbutton', 'q=resetbutton','qbuttonbutton', 'qpetiktypebutton', 'qtypebutton',
           'qform','qformIN','endform','qatrform','qclassform','qidform','qpetikform','qstyleform', 'qcekform', 'q=form', 'q=methodform','qactionform', 'qgetform', 'q=getform','qformform', 'qpetikmethod', 'qmethodform','qpostform',
-          'qinput','endinput','qatrinput','qclassinput','qidinput','qpetikinput','qstyleinput', 'q=input', 'q=typeinput', 'qnumberinput', 'qcheckboxinput', 'q=emailinput','qemailinput','qpasswordinput', 'qpetiktypeinput', 'qtypeinput',
+          'qinput','endinput','qatrinput','qclassinput','qidinput','qpetikinput','qstyleinput', 'q=input', 'q=typeinput', 'qnumberinput', 'qcheckboxinput', 'q=emailinput','qemailinput','qpasswordinput', 'qpetiktypeinput', 'qtypeinput', 'qtextinput',
           'qbr',
           'qem','qatrem','endem','qclassem','qstyleem','qidem','qcekem','qepetikem', 'qemIN',
           'qsmall','qatrsmall','qclasssmall','qidsmall','qstylesmall','endsmall','qceksmall','qepetiksmall','qsmallIN',
@@ -488,6 +489,7 @@ transition = {
 
            ('qcekdiv','p','>') : ('qp','ε','Dp'), #Ada <p> di dalam div
            ('qcekdiv','h','>') : ('qh','ε','Dh'), #ada <h> di dlaam div
+           ('qcekdiv','b','>') : ('qb','ε','Db'), #ada <br> di dlaam div
            ('qcekdiv','s','>') : ('qcekbody','ε','Ds'), #ada <small>  atau <strong> atau <script> di dlaam div
 
            
@@ -554,7 +556,7 @@ transition = {
             ('qh' ,'>','4') : ('qhIN','ε','X>'),
             ('qh' ,'>','5') : ('qhIN','ε','X>'),
             ('qh' ,'>','6') : ('qhIN','ε','X>'),
-            ('qatrh','>','X') : ('qhcek','ε','>'),
+            ('qatrh','>','X') : ('qhIN','ε','>'),
             ('qatrh',' ','X') : ('qatrh','ε', 'ε'),
 
        
@@ -573,9 +575,9 @@ transition = {
             ('endh',' ','<') : ('qcekbody','<','ε'),
 
             ('qhcek','p','>') : ('qp','ε','Hp'), #H symbol di <h_>
+            ('qhcek','b','>') : ('qb','ε','Hb'), #br symbol di <h_>
 
             ('endh',' ','D') : ('qdiv','D','ε'), #H di dalam nest div
-
             ('endh',' ','F') : ('qformIN','ε','ε'), #H di dalam nest form
             
 
@@ -664,8 +666,12 @@ transition = {
             ('qidp','"','X') : ('qpetikp','ε','"'),
             ('qpetikp','"','"') : ('qatrp' , '"','ε'),
             #==============================br==============================
-            ('qbutton','r','b') : ('qbr','b','ε'),
+            ('qb','r','b') : ('qbr','b','ε'),
             ('qbr','>','<'):('qcekbody','<','ε'),
+
+            ('qbr','>','D'):('qdiv','D','ε'), #di dalem nest div
+            ('qbr','>','H'):('qhIN','H','ε'), #di dalem nest h
+            ('qbr','>','F'):('qformIN','F','ε'), #di dalem nest form
 
             #==============================em==============================
             ('qcekbody','<','>') : ('qcekbody','ε','ε'),
@@ -1301,7 +1307,7 @@ transition = {
             ('qinput', ' ', 'X'): ('qinput', 'ε', 'ε'),
             ('qcekbody', ' ', 'F'): ('qformIN', 'ε', 'ε'),
 
-            ('qinput', '>', 'F'): ('qformIN', 'F', 'ε'), #handling klo di form
+            ('qinput', '>', 'F'): ('qformIN', 'ε', 'ε'), #handling klo di form
 
             ('qatrinput','c','X') : ('qclassinput','ε', 'c'),
             ('qclassinput','l','c') : ('qclassinput','ε','l'),
