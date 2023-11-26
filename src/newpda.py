@@ -1226,7 +1226,7 @@ transition = {
             ('qcekform','m','s') : ('qsmall','ε','m'),
             ('qcekform','t','s') : ('qstrong','ε','t'),
             ('qcekform','d','F') : ('qdiv','ε','Fd'),
-            ('qcekform','i','F') : ('qimg','ε','i'),
+            ('qcekform','i','F') : ('qimg','ε','Fi'),
             ('qcekform','h','F') : ('qh','ε','h'),
 
             #atribut form
@@ -1288,14 +1288,14 @@ transition = {
             ('qimg', 'n', 'i'): ('qinput', 'ε', 'n'),
             ('qinput', 'p', 'n'): ('qinput', 'n', 'ε'),
             ('qinput', 'u', 'i'): ('qinput', 'i', 'ε'),
-            ('qinput', 't', '<'): ('qinput', '<', 'ε'),
+            ('qinput', 't', 'F'): ('qinput', 'F', 'ε'),
             ('qinput', ' ', '>'): ('qatrinput', 'ε', 'X'),
             ('qinput', '>', '>'): ('qcekbody', 'ε', 'ε'),
             ('qatrinput','>','X') :('qcekbody', 'X', 'ε'),
             ('qatrinput',' ','X') : ('qatrinput','ε','ε'),
             ('qinput', ' ', 'X'): ('qinput', 'ε', 'ε'),
 
-            ('qinput', 't', 'F'): ('qcekform', 'ε', 'ε'), #handling klo di form
+            ('qinput', '>', 'F'): ('qcekform', 'ε', 'ε'), #handling klo di form
 
             ('qatrinput','c','X') : ('qclassinput','ε', 'c'),
             ('qclassinput','l','c') : ('qclassinput','ε','l'),
