@@ -45,11 +45,9 @@ class PDA:
                 # Push simbol-simbol ke stack
                 if push_symbols != 'ε':
                     self.stack.extend(push_symbols)
-                print(self.stack)
+                # print(self.stack)
                 
-            
-                
-        
+
 
             elif (self.current_state != 'qcommentIN' and self.current_state != 'qpetikbody' and self.current_state != 'qpetikhead'and self.current_state != 'qpetikhtml'
                     and self.current_state != 'qpetiktitle' and self.current_state != 'qpetiklinkhead' and self.current_state != 'qkutiplinkhead'
@@ -87,7 +85,7 @@ class PDA:
                     and self.current_state != "qbutton"
                     and self.current_state != "qformIN"
                     and self.current_state != "qa"):   #Handler ignorance
-                        print(f"Error: No transition for ({self.current_state}, {symbol}, {self.stack[-1]}).")
+                        # print(f"Error: No transition for ({self.current_state}, {symbol}, {self.stack[-1]}).")
                         return False
                 
 
@@ -95,7 +93,7 @@ class PDA:
        
         popped = self.stack.pop()
         if(popped != initial_stack_symbol):
-            print(f"Error: No transition for ({self.current_state}, {symbol}, {self.stack[-1]}).")
+            # print(f"Error: No transition for ({self.current_state}, {symbol}, {self.stack[-1]}).")
             return False
         return self.is_accepted()
 
