@@ -62,7 +62,23 @@ class PDA:
                     and self.current_state != "qabbrIN"
                     and self.current_state != "qsmallIN"
                     and self.current_state != "qbIN"
-                    and self.current_state != "qemIN"):   #Handler ignorance
+                    and self.current_state != "qemIN"
+                    and self.current_state != "qcekform"
+                    and self.current_state != "qpetikbutton"
+                    and self.current_state != "qpetikform"
+                    and self.current_state != "qpetiktable"
+                    and self.current_state != "qpetiktd"
+                    and self.current_state != "qpetikth"
+                    and self.current_state != "qpetiktr"
+                    and self.current_state != "qth"
+                    and self.current_state != "qtd"
+                    and self.current_state != "qtr"
+                    and self.current_state != "qpetikinput"
+                    and self.current_state != "qpetikimg"
+                    and self.current_state != "qpetikhr"
+                    and self.current_state != "qpetika"
+                    and self.current_state != "qbutton"
+                    and self.current_state != "qformIN"):   #Handler ignorance
                     print(f"Error: No transition for ({self.current_state}, {symbol}, {self.stack[-1]}).")
                     return False
                 
@@ -90,7 +106,7 @@ states = {'qcomment','qcommentIN','endcomment','q0','qcek','qhead','endhtml','qa
           'qimg','qatrimg','qclassimg','qidimg','qpetikimg','qstyleimg', 'qatrsrcimg', 'qsrcimg', 'qaltimg', 'q=img',
           'qclasssrcimg','qidsrcimg','qpetiksrcimg','qstylesrcimg','qaltsrcimg', 'q=srcimg',
           'qbutton','endbutton','qatrbutton','qclassbutton','qidbutton','qpetikbutton','qstylebutton', 'q=button', 'qsubmitbutton', 'qresetbutton', 'q=resetbutton','qbuttonbutton', 'qpetiktypebutton', 'qtypebutton',
-          'qform','endform','qatrform','qclassform','qidform','qpetikform','qstyleform', 'q=form', 'qactionform', 'qgetform', 'q=getform','qformform', 'qpetikmethod', 'qmethodform',
+          'qform','qformIN','endform','qatrform','qclassform','qidform','qpetikform','qstyleform', 'qcekform', 'q=form', 'qactionform', 'qgetform', 'q=getform','qformform', 'qpetikmethod', 'qmethodform',
           'qinput','endinput','qatrinput','qclassinput','qidinput','qpetikinput','qstyleinput', 'q=input', 'qnumberinput', 'qcheckboxinput', 'q=emailinput','qemailinput','qpasswordinput', 'qpetiktypeinput', 'qtypeinput',
           'qbr',
           'qem','qatrem','endem','qclassem','qstyleem','qidem','qcekem','qepetikem', 'qemIN',
@@ -559,11 +575,6 @@ transition = {
             
 
 
-
-
-           
-
-
             #Q Attribute h
             ('qatrh','c','X') : ('qclassh','ε', 'c'),
             ('qclassh','l','c') : ('qclassh','ε','l'),
@@ -671,7 +682,8 @@ transition = {
 
             ('endem',' ','P') : ('qcekp','P','ε'), #didalam nest 'p'
             ('endem',' ','S') : ('qceksmall','S','ε'), #didalam nest 'small'
-            ('endem',' ','T') : ('qcekstrong','T','ε'), #didalam nest 'strong' 
+            ('endem',' ','T') : ('qcekstrong','T','ε'), #didalam nest 'strong'
+            ('endem',' ','F') : ('qformIN','F','ε'), #didalam nest 'strong' 
 
             
 
@@ -724,6 +736,7 @@ transition = {
 
             ('endb',' ','<') : ('qcekbody','<','ε'), #didalam body
             ('endb',' ','P') : ('qpIN','P','ε'), #didalam p
+            ('endb',' ','F') : ('qcekform','F','ε'), #didalam p
 
             
             #Attribute b
@@ -821,7 +834,7 @@ transition = {
             ('qstrong','n','o') : ('qstrong','ε','n'),
             ('qstrong','g','n') : ('qstrong','ε','g'),
             ('qstrong','>','g') : ('qstrongIN','ε','X>'),
-            ('qstrong',' ','l') : ('qatrstrong','ε','X'),
+            ('qstrong',' ','g') : ('qatrstrong','ε','X'),
             ('qatrstrong','>','X') : ('qstrongIN','ε','>'),
             ('qstrongIN',' ','>') : ('qstrongIN','ε','ε'),
 
@@ -840,6 +853,7 @@ transition = {
             ('endstrong','>','s') : ('endstrong','s','ε'),
 
             ('endstrong',' ','P') : ('qcekp','P','ε'), #didalam nest 'p'
+            ('endstrong',' ','F') : ('qcekform','F','ε'), #didalam nest form
 
             ('endstrong','>','p') : ('endstrong','p','ε'),
             ('endstrong',' ','<') : ('qcekbody','<','ε'),
@@ -883,6 +897,7 @@ transition = {
             ('qsmallIN',' ','>') : ('qsmallIN','ε','ε'),
 
             ('endsmall',' ','P') : ('qcekp','P','ε'), #didalam nest 'p'
+            ('endsmall',' ','F') : ('qcekp','F','ε'), #didalam nest form
 
 
             ('qceksmall','e','>') : ('qem','ε','Se'),
@@ -1182,19 +1197,28 @@ transition = {
             ('qform', 'r', 'o'): ('qform', 'ε', 'r'),
             ('qform', 'm', 'r'): ('qform', 'ε', 'm'),
             ('qform', ' ', 'm'): ('qatrform', 'ε', 'X'),
-            ('qform', '>', 'm'): ('qform', 'ε', 'X>'),
-            ('qatrform','>','X') :('qform', 'ε', '>'),
+            ('qform', '>', 'm'): ('qformIN', 'ε', 'F'),
+            ('qatrform','>','X') :('qformIN', 'X', 'F'),
             ('qatrform',' ','X') : ('qatrform','ε','ε'),
             ('qform', ' ', 'X'): ('qform', 'ε', 'ε'),
 
-            ('qform',' ','>') : ('qform','ε','ε'),
-            ('qform','<','>') : ('endform','>','ε'),
-            ('endform','/','X') : ('endform','X','ε'),
+            ('qformIN',' ','F') : ('qformIN','ε','ε'),
+
+            ('qformIN','<','F') : ('qcekform','ε','ε'),
+            ('qcekform','/','F') : ('endform','F','ε'),
             ('endform','f','m') : ('endform','m','ε'),
             ('endform','o','r') : ('endform','r','ε'),
             ('endform','r','o') : ('endform','o','ε'),
             ('endform','m','f') : ('endform','f','ε'),
             ('endform','>','<') : ('qcekbody','<','ε'),
+
+            #nesting form
+            ('qcekform','b','F') : ('qb','ε','Fb'),
+            ('qcekform','e','F') : ('qem','ε','Fe'),
+            ('qcekform','s','F') : ('qcekform','ε','Fs'),
+            ('qcekform','m','s') : ('qsmall','ε','m'),
+            ('qcekform','t','s') : ('qstrong','ε','t'),
+
 
             #atribut form
             ('qatrform','c','X') : ('qclassform','ε', 'c'),
@@ -1334,23 +1358,22 @@ transition = {
             ('qtable', 'l', 'b'): ('qtable', 'ε', 'l'),
             ('qtable', 'e', 'l'): ('qtable', 'ε', 'e'),
             ('qtable', ' ', 'e'): ('qatrtable', 'ε', 'X'),
-            ('qtable', '>', 'e'): ('qtable', 'ε', 'X>'),
-            ('qatrtable','>','X') :('qtable', 'ε', '>'),
+            ('qtable', '>', 'e'): ('qtable', 'ε', 'T'),
+            ('qatrtable','>','X') :('qtable', 'X', 'T'),
             ('qatrtable',' ','X') : ('qatrtable','ε','ε'),
             ('qtable', ' ', 'X'): ('qtable', 'ε', 'ε'),
 
-            ('qtable', '<', '>'): ('qcektable', 'ε', 'ε'),
-            ('qcektable',' ','>') : ('qcektable','ε','ε'),
+            ('qtable', '<', 'T'): ('qcektable', 'ε', 'ε'),
+            ('qcektable',' ','T') : ('qcektable','ε','ε'),
 
-            ('qtable',' ','>') : ('qtable','ε','ε'),
-            ('qcektable','/','>') : ('qcektable','>','ε'),
-            ('qcektable','t','X') : ('endtable','X','ε'),
-            ('endtable','a','e') : ('endtable','e','ε'),
-            ('endtable','b','l') : ('endtable','l','ε'),
-            ('endtable','l','b') : ('endtable','b','ε'),
-            ('endtable','e','a') : ('endtable','a','ε'),
-            ('endtable','>','t') : ('endtable','t','ε'),
-            ('endtable',' ','<') : ('qcekbody','<','ε'),
+            ('qtable',' ','T') : ('qtable','ε','ε'),
+            ('qcektable','/','T') : ('qcektable','T','ε'),
+            ('qcektable','t','e') : ('endtable','e','ε'),
+            ('endtable','a','l') : ('endtable','l','ε'),
+            ('endtable','b','b') : ('endtable','b','ε'),
+            ('endtable','l','a') : ('endtable','a','ε'),
+            ('endtable','e','t') : ('endtable','t','ε'),
+            ('endtable','>','<') : ('qcekbody','<','ε'),
 
             ('qatrtable','c','X') : ('qclasstable','ε', 'c'),
             ('qclasstable','l','c') : ('qclasstable','ε','l'),
@@ -1372,7 +1395,7 @@ transition = {
             #================================endtable=============================
 
             #================================tr, td, th=============================
-            ('qcektable','t','>') : ('qcektable','ε','<t'),
+            ('qcektable','t','T') : ('qcektable','ε','<t'),
             ('qcektable','r','t') : ('qtr','ε','r'), 
             ('qcektable','d','t') : ('qtd','ε','d'), 
             ('qcektable','h','t') : ('qth','ε','h'),
@@ -1464,7 +1487,7 @@ transition = {
             ('qstyletr','"','X') : ('qpetiktr','ε','"'),
             ('qpetiktr','"','"') : ('qatrtr' , '"','ε'),
 
-                        ('qatrth','i','X') : ('qidth','ε', 'i'),
+            ('qatrth','i','X') : ('qidth','ε', 'i'),
             ('qidth','d','i') : ('qidth','i','ε'),
             ('qidth','=','X') : ('q=th','ε','ε'),
             ('q=th','"','X') : ('qpetikth','ε','"'),
