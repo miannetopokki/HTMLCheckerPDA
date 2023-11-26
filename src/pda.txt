@@ -181,7 +181,7 @@ transition = {
     ('qkutiplinkhead', '"', '"'): ('qlinkhead', '"', '\u03B5'),
     ('qlinkhead', ' ', '<'): ('qatrlinkhead', '\u03B5', '\u03B5'),
     ('qlinkhead', '>', '<'): ('qlinkhead', '<', '\u03B5'),
-    ('qatrlinkhead', '>', '<'): ('qcekhead', '<', '\u03B5'),
+    ('qatrlinkhead', '>', '<'): ('qlinkhead', '<', '\u03B5'),
     ('qatrlinkhead', ' ', '<'): ('qatrlinkhead', '\u03B5', '\u03B5'),
     ('qlinkhead', ' ', ']'): ('qcekhead', ']', '\u03B5'),
     ('qlinkhead', ' ', '>'): ('qcekbody', '\u03B5', '\u03B5'),
@@ -269,10 +269,17 @@ transition = {
     ('qdiv', ' ', '>'): ('qdiv', '\u03B5', '\u03B5'),
     ('qcekdiv', 'd', '>'): ('qdiv', '\u03B5', '<d'),
     ('qdiv', '<', 'D'): ('qcekbody', 'D', '\u03B5'),
+
+
     ('qcekdiv', 'p', '>'): ('qp', '\u03B5', 'Dp'),
     ('qcekdiv', 'h', '>'): ('qh', '\u03B5', 'Dh'),
     ('qcekdiv', 'b', '>'): ('qb', '\u03B5', 'Db'),
     ('qcekdiv', 's', '>'): ('qcekbody', '\u03B5', 'Ds'),
+    ('qcekdiv', 's', '>'): ('qcekbody', '\u03B5', 'Ds'),
+    ('qcekdiv','a','>') : ('qa','\u03B5','Da'),
+ 
+
+
     ('qdiv', '<', '>'): ('qcekdiv', '\u03B5', '\u03B5'),
     ('qcekdiv', '/', '>'): ('enddiv', '>', '\u03B5'),
     ('enddiv', 'd', 'X'): ('enddiv', 'X', '\u03B5'),
@@ -374,12 +381,16 @@ transition = {
     ('qpIN', '<', '>'): ('qcekp', '\u03B5', '\u03B5'),
     ('qcekp', '<', '>'): ('qcekp', '\u03B5', '\u03B5'),
     ('qcekp', '/', '>'): ('endp', '>', '\u03B5'),
+
     ('endp', 'p', 'X'): ('endp', 'X', '\u03B5'),
     ('endp', '>', 'p'): ('endp', 'p', '\u03B5'),
     ('endp', ' ', '<'): ('qcekbody', '<', '\u03B5'),
     ('endp', ' ', 'H'): ('qhIN', 'H', '\u03B5'),
     ('endp', ' ', 'P'): ('qcekbody', 'P', '\u03B5'),
     ('endp', ' ', 'D'): ('qdiv', 'D', '\u03B5'),
+    ('endp', ' ', 'F'): ('qformIN', 'F', '\u03B5'),
+
+
     ('qatrp', 'c', 'X'): ('qclassp', '\u03B5', 'c'),
     ('qclassp', 'l', 'c'): ('qclassp', '\u03B5', 'l'),
     ('qclassp', 'a', 'l'): ('qclassp', '\u03B5', 'a'),
@@ -596,8 +607,11 @@ transition = {
     ('qidsmall', 'd', 'i'): ('qidsmall', 'i', '\u03B5'),
     ('qidsmall', '=', 'X'): ('qidsmall', '\u03B5', '\u03B5'),
     ('qidsmall', '"', 'X'): ('qepetiksmall', '\u03B5', '"'),
+
     ('qhr', ' ', '<'): ('qatrhr', '<', 'X'),
     ('qhr', '>', '<'): ('qcekbody', '<', '\u03B5'),
+    ('qhr', '>', 'D'): ('qdiv', 'D', '\u03B5'),
+
     ('qatrhr', '>', 'X'): ('qcekbody', 'X', '\u03B5'),
     ('qatrhr', ' ', 'X'): ('qatrhr', '\u03B5', '\u03B5'),
     ('qhr', ' ', 'X'): ('qhr', '\u03B5', '\u03B5'),
@@ -629,9 +643,15 @@ transition = {
     ('qa', '<', '>'): ('enda', '>', '\u03B5'),
     ('enda', '/', 'X'): ('enda', 'X', '\u03B5'),
     ('enda', 'a', 'a'): ('enda', 'a', '\u03B5'),
+
+
     ('enda', '>', '<'): ('qcekbody', '<', '\u03B5'),
     ('enda', '>', 'P'): ('qp', 'P', '\u03B5'),
     ('enda', '>', 'F'): ('qformIN', 'F', '\u03B5'),
+    ('enda', '>', 'D'): ('qdiv', 'D', '\u03B5'),
+
+
+
     ('qatra', 'h', 'X'): ('qhrefa', '\u03B5', 'h'),
     ('qhrefa', 'r', 'h'): ('qhrefa', '\u03B5', 'r'),
     ('qhrefa', 'e', 'r'): ('qhrefa', 'r', '\u03B5'),
@@ -796,6 +816,7 @@ transition = {
     ('endform', 'r', 'o'): ('endform', 'o', '\u03B5'),
     ('endform', 'm', 'f'): ('endform', 'f', '\u03B5'),
     ('endform', '>', '<'): ('qcekbody', '<', '\u03B5'),
+
     ('qcekform', 'b', 'F'): ('qb', '\u03B5', 'Fb'),
     ('qcekform', 'e', 'F'): ('qem', '\u03B5', 'Fe'),
     ('qcekform', 's', 'F'): ('qcekform', '\u03B5', 'Fs'),
@@ -805,6 +826,8 @@ transition = {
     ('qcekform', 'i', 'F'): ('qimg', '\u03B5', 'Fi'),
     ('qcekform', 'h', 'F'): ('qh', '\u03B5', 'h'),
     ('qcekform', 'a', 'F'): ('qa', '\u03B5', 'Fa'),
+    ('qcekform','p','F') : ('qp','\u03B5','Fp'),
+
     ('qatrform', 'c', 'X'): ('qclassform', '\u03B5', 'c'),
     ('qclassform', 'l', 'c'): ('qclassform', '\u03B5', 'l'),
     ('qclassform', 'a', 'l'): ('qclassform', '\u03B5', 'a'),

@@ -46,7 +46,7 @@ class PDA:
                 if push_symbols != 'ε':
                     self.stack.extend(push_symbols)
                 print(self.stack)
-
+        
 
             elif (self.current_state != 'qcommentIN' and self.current_state != 'qpetikbody' and self.current_state != 'qpetikhead'and self.current_state != 'qpetikhtml'
                     and self.current_state != 'qpetiktitle' and self.current_state != 'qpetiklinkhead' and self.current_state != 'qkutiplinkhead'
