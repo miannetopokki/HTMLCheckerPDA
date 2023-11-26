@@ -9,6 +9,7 @@ transition = {
     ('qcommentIN', '-', '-'): ('endcomment', '-', '\u03B5'),
     ('endcomment', '-', '!'): ('endcomment', '!', '\u03B5'),
     ('endcomment', '>', 'C'): ('endcomment', 'C', '\u03B5'),
+    ('endcomment', ' ', '$'): ('qformIN', '$', '\u03B5'),
     ('endcomment', ' ', '['): ('qhead', '[', '\u03B5'),
     ('endcomment', ' ', ']'): ('qcek', ']', '\u03B5'),
     ('endcomment', ' ', '{'): ('qcekbody', '{', '\u03B5'),
@@ -277,6 +278,7 @@ transition = {
     ('qcekdiv', 's', '>'): ('qcekbody', '\u03B5', 'Ds'),
     ('qcekdiv', 's', '>'): ('qcekbody', '\u03B5', 'Ds'),
     ('qcekdiv','a','>') : ('qa','\u03B5','Da'),
+    ('qcekdiv','f','>') : ('qform','\u03B5','Df'),
  
 
 
@@ -816,6 +818,9 @@ transition = {
     ('endform', 'r', 'o'): ('endform', 'o', '\u03B5'),
     ('endform', 'm', 'f'): ('endform', 'f', '\u03B5'),
     ('endform', '>', '<'): ('qcekbody', '<', '\u03B5'),
+
+    ('qcekform', '!', 'F'): ('qcomment', '\u03B5', '$C'),
+    ('endform','>','D') : ('qdiv','D','\u03B5'),
 
     ('qcekform', 'b', 'F'): ('qb', '\u03B5', 'Fb'),
     ('qcekform', 'e', 'F'): ('qem', '\u03B5', 'Fe'),
