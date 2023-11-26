@@ -45,7 +45,7 @@ class PDA:
                 # Push simbol-simbol ke stack
                 if push_symbols != 'ε':
                     self.stack.extend(push_symbols)
-                # print(self.stack)
+                print(self.stack)
                 
             
                 
@@ -76,9 +76,9 @@ class PDA:
                     and self.current_state != "qpetikscript"
                     and self.current_state != "qpetikb"
                     and self.current_state != "qpetikb"
-                    and self.current_state != "qth"
-                    and self.current_state != "qtd"
-                    and self.current_state != "qtr"
+                    and self.current_state != "qthIN"
+                    and self.current_state != "qtdIN"
+                    and self.current_state != "qtrIN"
                     and self.current_state != "qpetikinput"
                     and self.current_state != "qpetikimg"
                     and self.current_state != "qpetiksrcimg"
