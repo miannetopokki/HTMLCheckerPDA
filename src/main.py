@@ -28,7 +28,7 @@ class PDA:
                 next_state, pop_symbol, push_symbols = transition_tuple
 
            
-            if ((self.current_state, symbol, self.stack[-1]) in self.transition and self.current_state in self.states):
+            if ((self.current_state, symbol, self.stack[-1]) in self.transition and self.current_state in self.states and symbol in self.input_alphabet and self.stack[-1] in self.stack_alphabet):
                 next_state, pop_symbol, push_symbols = self.transition[(self.current_state, symbol, self.stack[-1])]
 
                 
@@ -45,7 +45,10 @@ class PDA:
                 # Push simbol-simbol ke stack
                 if push_symbols != 'ε':
                     self.stack.extend(push_symbols)
-                print(self.stack)
+                # print(self.stack)
+                
+            
+                
         
 
             elif (self.current_state != 'qcommentIN' and self.current_state != 'qpetikbody' and self.current_state != 'qpetikhead'and self.current_state != 'qpetikhtml'
@@ -66,6 +69,13 @@ class PDA:
                     and self.current_state != "qpetiktd"
                     and self.current_state != "qpetikth"
                     and self.current_state != "qpetiktr"
+                    and self.current_state != "qepetikem"
+                    and self.current_state != "qepetikstrong"
+                    and self.current_state != "qpetikabbr"
+                    and self.current_state != "qepetiksmall"
+                    and self.current_state != "qpetikscript"
+                    and self.current_state != "qpetikb"
+                    and self.current_state != "qpetikb"
                     and self.current_state != "qth"
                     and self.current_state != "qtd"
                     and self.current_state != "qtr"
@@ -85,6 +95,7 @@ class PDA:
        
         popped = self.stack.pop()
         if(popped != initial_stack_symbol):
+            print(f"Error: No transition for ({self.current_state}, {symbol}, {self.stack[-1]}).")
             return False
         return self.is_accepted()
 
@@ -137,8 +148,42 @@ for char in html_content:
 result_string = " ".join(result_string.split())
 
 result = pda.process_input(result_string)
+ascii_art_accept = """
+░█████╗░░█████╗░░█████╗░███████╗██████╗░████████╗
+██╔══██╗██╔══██╗██╔══██╗██╔════╝██╔══██╗╚══██╔══╝
+███████║██║░░╚═╝██║░░╚═╝█████╗░░██████╔╝░░░██║░░░
+██╔══██║██║░░██╗██║░░██╗██╔══╝░░██╔═══╝░░░░██║░░░
+██║░░██║╚█████╔╝╚█████╔╝███████╗██║░░░░░░░░██║░░░
+╚═╝░░╚═╝░╚════╝░░╚════╝░╚══════╝╚═╝░░░░░░░░╚═╝░░░
+"""
+
+
+ascii_art_reject = """
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣤⣤⣤⣤⣤⣶⣦⣤⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⣿⡿⠛⠉⠙⠛⠛⠛⠛⠻⢿⣿⣷⣤⡀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⣼⣿⠋⠀⠀⠀⠀⠀⠀⠀⢀⣀⣀⠈⢻⣿⣿⡄⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⣸⣿⡏⠀⠀⠀⣠⣶⣾⣿⣿⣿⠿⠿⠿⢿⣿⣿⣿⣄⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⣿⣿⠁⠀⠀⢰⣿⣿⣯⠁⠀⠀⠀⠀⠀⠀⠀⠈⠙⢿⣷⡄⠀
+⠀⠀⣀⣤⣴⣶⣶⣿⡟⠀⠀⠀⢸⣿⣿⣿⣆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣷⠀
+⠀⢰⣿⡟⠋⠉⣹⣿⡇⠀⠀⠀⠘⣿⣿⣿⣿⣷⣦⣤⣤⣤⣶⣶⣶⣶⣿⣿⣿⠀
+⠀⢸⣿⡇⠀⠀⣿⣿⡇⠀⠀⠀⠀⠹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠃⠀
+⠀⣸⣿⡇⠀⠀⣿⣿⡇⠀⠀⠀⠀⠀⠉⠻⠿⣿⣿⣿⣿⡿⠿⠿⠛⢻⣿⡇⠀⠀
+⠀⣿⣿⠁⠀⠀⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣧⠀⠀
+⠀⣿⣿⠀⠀⠀⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⠀⠀
+⠀⣿⣿⠀⠀⠀⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⠀⠀
+⠀⢿⣿⡆⠀⠀⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⠇⠀⠀
+⠀⠸⣿⣧⡀⠀⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⠃⠀⠀
+⠀⠀⠛⢿⣿⣿⣿⣿⣇⠀⠀⠀⠀⠀⣰⣿⣿⣷⣶⣶⣶⣶⠶⠀⢠⣿⣿⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⣿⣿⠀⠀⠀⠀⠀⣿⣿⡇⠀⣽⣿⡏⠁⠀⠀⢸⣿⡇⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⣿⣿⠀⠀⠀⠀⠀⣿⣿⡇⠀⢹⣿⡆⠀⠀⠀⣸⣿⠇⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⢿⣿⣦⣄⣀⣠⣴⣿⣿⠁⠀⠈⠻⣿⣿⣿⣿⡿⠏⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠈⠛⠻⠿⠿⠿⠿⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+"""
+
 
 if result:
-    print(f"Accepted.")
+    print(ascii_art_accept)
+
 else:
+    print(ascii_art_reject)
     print(f"Rejected.")
