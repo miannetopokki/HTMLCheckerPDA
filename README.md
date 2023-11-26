@@ -1,23 +1,6 @@
-<!-- Improved compatibility of back to top link: See: https://github.com/othneildrew/Best-README-Template/pull/73 -->
 <a name="readme-top"></a>
-<!--
-*** Thanks for checking out the Best-README-Template. If you have a suggestion
-*** that would make this better, please fork the repo and create a pull request
-*** or simply open an issue with the tag "enhancement".
-*** Don't forget to give the project a star!
-*** Thanks again! Now go create something AMAZING! :D
--->
 
 
-
-<!-- PROJECT SHIELDS -->
-<!--
-*** I'm using markdown "reference style" links for readability.
-*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
-*** See the bottom of this document for the declaration of the reference variables
-*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
-*** https://www.markdownguide.org/basic-syntax/#reference-style-links
--->
 
 
 <!-- PROJECT LOGO -->
@@ -81,7 +64,6 @@ Our mission at HTML Checker is to simplify the validation process of HTML docume
 <strong>Features:</strong>
 
 * Structure Validation: Utilizing Pushdown Automata to meticulously examine HTML structures and detect syntax errors.
-* Error Identification: Highlighting any inconsistencies or mistakes in the HTML document for easy debugging and correction.
 * User-Friendly Interface: Offering an intuitive platform that simplifies the process of validating HTML structures.
 
 <br/>
@@ -94,7 +76,9 @@ Our mission at HTML Checker is to simplify the validation process of HTML docume
 Your journey towards impeccable HTML structures starts with HTML Checker, where every validated document contributes to building a robust web environment.
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+### Built With
 
+![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
 <br/>
 
 ### Features
@@ -161,6 +145,11 @@ Room for improvement:
 
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
+
+<div align="center">
+    <img src="./IMG/fotokumpul.png" style="width: 300px">
+</div>
+
 * [Hugo Sabam Augusto](https://github.com/miannetopokki)
 
 * [Muhammad Zaki](https://github.com/mzaki9)
@@ -175,5 +164,5 @@ Room for improvement:
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[logo-c]:https://img.shields.io/badge/language-C-blue
+[logo-python]:https://img.shields.io/badge/language-C-blue
 [github-url]: https://github.com/miannetopokki/HTMLCheckerPDA
