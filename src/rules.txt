@@ -1,6 +1,6 @@
-states = {'qpetiktable', 'qclassh', 'qpetikform', 'endhtml', 'endstrong', 'qcekform', 'qclasshead', 'qclasstitle', 'qtypeinput', 'qatrsrctr', 'qform', 'qbIN', 'qnumberinput', 'qatrsmall', 'qatrform', 'qpetikinput', 'qclasstable', 'q=table', 'q=td', 'q=getform', 'qclassscript', 'q=hr', 'qclassform', 'qatrem', 'qpetikb', 'qstyleinput', 'qstyletd', 'qidh', 'qidhead', 'qclasshtml', 'qstylesrcimg', 'endform', 'qpetiktr', 'q=input', 'qidscript', 'qpetikscript', 'qstylep', 'qstyletitle', 'qstylebody', 'qpetikbutton', 'qpetiksrcimg', 'qstyleb', 'endtitle', 'qpetiktypeinput', 'qclassp', 'qatrlinkhead', 'qclassabr', 'qatrsrcimg', 'endtd', 'qatrbutton', 'q=a', 'qstylescript', 'qsrcimg', 'enddiv', 'qstylesmall', 'q=resetbutton', 'qatrtitle', 'qstyleh', 'qatrb', 'qinput', 'qstylelinkhead', 'qatrtr', 'qpasswordinput', 'qmethodform', 'endem', 'qb', 'qstyleabbr', 'enda', 'qem', 'qsrctable', 'qcekb', 'qidbutton', 'q=form', 'qabbrIN', 'qhr', 'qatrbody', 'endhead', 'qgetform', 'qhreflinkhead', 'qepetikem', 'qpetikp', 'qatrtd', 'qceksmall', 'qemIN', 'qidstrong', 'qpetiktd', 'qatra', 'qidb', 'qpetikhead', 'qatrtable', 'qstyleimg', 'q=th', 'qaltth', 'q=emailinput', 'qstrongIN', 'qpetikdiv', 'qatrhtml', 'qbody', 'endth', 'qidbody', 'qidth', 'qatrsrctd', 'qsrcth', 'qpetika', 'qcomment', 'qscript', 'qatrth', 'qclassa', 'qstylea', 'qa', 'qstylebutton', 'qcekabbr', 'qkutiplinkhead', 'qactionform', 'qclassbutton', 'qstylestrong', 'qidtable', 'qatrimg', 'qidform', 'qclassdiv', 'qclassbody', 'qhead', 'qatrp', 'qepetiksmall', 'endtr', 'qtypebutton', 'qatrsrctable', 'qpetiktitle', 'qstrong', 'qsubmitbutton', 'qhcek', 'qidtitle', 'qclasslinkhead', 'qformform', 'qstyletable', 'qclasstd', 'qclasshr', 'qalttable', 'qidsmall', 'qp', 'qsrcscript', 'endscript', 'qidhr', 'endtable', 'qalttd', 'qstylehr', 'qsrctr', 'qpetikhr', 'qcekdiv', 'qpIN', 'qcekbody', 'qpetikimg', 'qpetikmethod', 'qidlinkhead', 'qcekhead', 'qhrefa', 'qtr', 'qabbr', 'qaltimg', 'qatrabbr', 'endh', 'qatrdiv', 'qpetikhtml', 'endinput', 'endp', 'qstyleem', 'qidhtml', 'qresetbutton', 'qtable', 'qclassstrong', 'qstyleth', 'qbutton', 'endbody', 'qidimg', 'qpetikth', 'qstylehead,', 'qdiv', 'q=button', 'qpetikh', 'qatrstrong', 'qbr', 'qtitle', 'qidem', 'qsmall', 'qbuttonbutton', 'qalttr', 'q=tr', 'qcek', 'qidtd', 'endb', 'endt', 'endcomment', 'qclassinput', 'qemailinput', 'qatrh', 'qstylediv', 'qidinput', 'endabbr', 'qstylehtml', 'qstyleform', 'qtd', 'qth', 'qclassb', 'qidsrcimg', 'endbutton', 'qidp', 'qpetiklinkhead', 'qh', 'qsrctd', 'qclasstr', 'qatrsrcth', 'qpetiktypebutton', 'qcekp', 'qpetikbody', 'qclassem', 'q=srcimg', 'qaltsrcimg', 'qimg', 'q=img', 'qatrhr', 'qclasssmall', 'qiddiv', 'qidabbr', 'qcheckboxinput', 'qpetikabbr', 'qcekem', 'q0', 'qhIN', 'qlinkhead', 'qatrinput', 'qsmallIN', 'qida', 'qcektable', 'qcekscript', 'qatrscript', 'q=methodform', 'qepetikstrong', 'qatrhead', 'qidtr', 'qcommentIN', 'qformIN', 'qstyletr', 'endsmall', 'qclassth', 'qclasssrcimg', 'qclassimg', 'qcekstrong'}
-input_alphabet = {'m', '/', 'l', '<', '>', 'h', 't'}
-stack_alphabet = {'Z', '1'}
+states = {'qcekhead', 'qaltsrcimg', 'q=methodform', 'qidbody', 'qidsrcimg', 'endbutton', 'qmethodform', 'qstyletr', 'qstyleb', 'qatrbody', 'qstylehead,', 'endtd', 'qstylelinkhead', 'qclassh', 'qpetika', 'qcekp', 'qform', 'qatrabbr', 'qactionform', 'qatrhtml', 'qcommentIN', 'qcekem', 'qtable', 'qatrsrctd', 'qresetbutton', 'q=th', 'qatrinput', 'enda', 'qaltimg', 'qbutton', 'qclassem', 'qbr', 'qidhr', 'qpetiktable', 'qcomment', 'qcekform', 'endp', 'qclasstr', 'qsrctr', 'endcomment', 'endabbr', 'qsrcimg', 'q=table', 'qidb', 'qatrtitle', 'qp', 'qbody', 'qidscript', 'endstrong', 'qstylea', 'endtr', 'qalttd', 'endth', 'qhead', 'endtable', 'qem', 'endh', 'qclasssmall', 'qidstrong', 'endscript', 'qpetikdiv', 'qh', 'qepetiksmall', 'qclasstitle', 'qatrform', 'qiddiv', 'qatrbutton', 'qpetikform', 'qstyleimg', 'q=input', 'qidhead', 'qemIN', 'qsrcscript', 'qinput', 'qclassb', 'qidtr', 'qgetform', 'qclassbody', 'qhreflinkhead', 'qclassdiv', 'qatrimg', 'qhrefa', 'qimg', 'q=button', 'qida', 'qatrhr', 'qpetiksrcimg', 'qatrhead', 'qpetikimg', 'qclassform', 'q=a', 'qclasstable', 'qatrh', 'q=srcimg', 'qclasshead', 'qclassinput', 'qidtitle', 'q=form', 'qclasshtml', 'qatrtd', 'qhIN', 'qth', 'qtr', 'qpetikth', 'qclassp', 'qhr', 'endhead', 'q=typebutton', 'qpetiktypeinput', 'qstrongIN', 'qcek', 'qclasssrcimg', 'qpetikabbr', 'qclassa', 'qstylehtml', 'qidsmall', 'qtd', 'qidp', 'qatrlinkhead', 'qstyleem', 'qclassimg', 'qidform', 'qidlinkhead', 'qsrctable', 'qatrth', 'qabbr', 'qidhtml', 'qcekscript', 'q=typeinput', 'qpetikscript', 'endtitle', 'qpetikb', 'qbIN', 'qatrb', 'qidbutton', 'q=getform', 'qidtable', 'qclasslinkhead', 'qidimg', 'qpetiktr', 'qatrscript', 'qtitle', 'qstylescript', 'endb', 'qclassabr', 'qtypebutton', 'qatrsmall', 'qepetikstrong', 'qpetiktitle', 'endem', 'qstrong', 'qidinput', 'qstyleinput', 'qceksmall', 'qstyleh', 'qpetikmethod', 'qpIN', 'q=emailinput', 'qcekabbr', 'qkutiplinkhead', 'qatrp', 'qidth', 'qpetikinput', 'qpetiklinkhead', 'qsmall', 'qclassth', 'qstylebutton', 'qatrem', 'qbuttonbutton', 'endhtml', 'qscript', 'qpasswordinput', 'qstylep', 'qcekb', 'qpetikbody', 'qclasshr', 'qabbrIN', 'qhcek', 'qclassstrong', 'qstylehr', 'endbody', 'q=img', 'qformform', 'qformIN', 'q0', 'qsubmitbutton', 'qsmallIN', 'qidh', 'q=td', 'qpetikhtml', 'qatrtr', 'qcekstrong', 'qidem', 'qstyleabbr', 'qatrsrctr', 'qstylesrcimg', 'qstylestrong', 'qclassbutton', 'qpetiktd', 'qdiv', 'qb', 'qnumberinput', 'enddiv', 'qstylediv', 'qpostform', 'qstyletable', 'qatrdiv', 'qstyletd', 'qatrstrong', 'qalttable', 'qtypeinput', 'qpetikhead', 'qepetikem', 'qstylesmall', 'endt', 'qatrsrcth', 'qalttr', 'qpetikh', 'qcektable', 'qcekdiv', 'qstyleform', 'qsrcth', 'qatrsrcimg', 'qidtd', 'qclasstd', 'qstyletitle', 'qstylebody', 'qsrctd', 'qpetikbutton', 'qatra', 'qaltth', 'qpetikp', 'qcekbody', 'qa', 'qlinkhead', 'qclassscript', 'q=resetbutton', 'qatrsrctable', 'endform', 'qcheckboxinput', 'qpetikhr', 'qatrtable', 'qpetiktypebutton', 'qstyleth', 'qidabbr', 'q=hr', 'endsmall', 'q=tr', 'endinput', 'qemailinput'}
+input_alphabet = {'h', 't', '>', 'l', 'm', '/', '<'}
+stack_alphabet = {'1', 'Z'}
 transition = {
     ('qcomment', '-', 'C'): ('qcomment', 'ε', '!-'),
     ('qcomment', '-', '-'): ('qcommentIN', 'ε', 'ε'),
@@ -746,12 +746,13 @@ transition = {
     ('qatrbutton', 'i', 'X'): ('qidbutton', 'ε', 'i'),
     ('qidbutton', 'd', 'i'): ('qidbutton', 'i', 'ε'),
     ('qidbutton', '=', 'X'): ('q=button', 'ε', 'ε'),
-    ('q=button', '"', 'X'): ('qpetiktypebutton', 'ε', '"'),
+    ('q=button', '"', 'X'): ('qpetikbutton', 'ε', '"'),
     ('qatrbutton', 't', 'X'): ('qtypebutton', 'ε', 't'),
     ('qtypebutton', 'y', 't'): ('qtypebutton', 'ε', 'y'),
     ('qtypebutton', 'p', 'y'): ('qtypebutton', 'y', 'ε'),
     ('qtypebutton', 'e', 't'): ('qtypebutton', 't', 'ε'),
-    ('qtypebutton', '=', 'X'): ('q=button', 'ε', 'ε'),
+    ('qtypebutton', '=', 'X'): ('q=typebutton', 'ε', 'ε'),
+    ('q=typebutton', '"', 'X'): ('qpetiktypebutton', 'ε', '"'),
     ('qpetiktypebutton', '"', '"'): ('qatrbutton', '"', 'ε'),
     ('qpetiktypebutton', 's', '"'): ('qsubmitbutton', 'ε', 's'),
     ('qsubmitbutton', 'u', 's'): ('qsubmitbutton', 'ε', 'u'),
@@ -769,7 +770,7 @@ transition = {
     ('qresetbutton', 'e', 'r'): ('qresetbutton', 'ε', 'e'),
     ('qresetbutton', 's', 'e'): ('q=resetbutton', 'ε', 'ε'),
     ('q=resetbutton', 'e', 'e'): ('qresetbutton', 'e', 'ε'),
-    ('qresetbutton', 't', 't'): ('qpetiktypebutton', 't', 'ε'),
+    ('qresetbutton', 't', 'r'): ('qpetiktypebutton', 'r', 'ε'),
     ('qcekbody', 'f', '>'): ('qform', 'ε', '<f'),
     ('qform', 'o', 'f'): ('qform', 'ε', 'o'),
     ('qform', 'r', 'o'): ('qform', 'ε', 'r'),
@@ -825,7 +826,7 @@ transition = {
     ('qpetikmethod', '"', '"'): ('qatrform', '"', 'ε'),
     ('qpetikmethod', 'P', '"'): ('qpostform', 'ε', 'P'),
     ('qpostform', 'O', 'P'): ('qpostform', 'ε', 'O'),
-    ('qpostform', 'S', 'O'): ('qpostform', 'O', 'b'),
+    ('qpostform', 'S', 'O'): ('qpostform', 'O', 'ε'),
     ('qpostform', 'T', 'P'): ('qpetikmethod', 'P', 'ε'),
     ('qpetikmethod', 'G', '"'): ('qgetform', 'ε', 'G'),
     ('qgetform', 'E', 'G'): ('q=getform', 'ε', 'ε'),
@@ -865,12 +866,13 @@ transition = {
     ('qatrinput', 'i', 'X'): ('qidinput', 'ε', 'i'),
     ('qidinput', 'd', 'i'): ('qidinput', 'i', 'ε'),
     ('qidinput', '=', 'X'): ('q=input', 'ε', 'ε'),
-    ('q=input', '"', 'X'): ('qpetiktypeinput', 'ε', '"'),
+    ('q=input', '"', 'X'): ('qpetikinput', 'ε', '"'),
     ('qatrinput', 't', 'X'): ('qtypeinput', 'ε', 't'),
     ('qtypeinput', 'y', 't'): ('qtypeinput', 'ε', 'y'),
     ('qtypeinput', 'p', 'y'): ('qtypeinput', 'y', 'ε'),
     ('qtypeinput', 'e', 't'): ('qtypeinput', 't', 'ε'),
-    ('qtypeinput', '=', 'X'): ('q=input', 'ε', 'ε'),
+    ('qtypeinput', '=', 'X'): ('q=typeinput', 'ε', 'ε'),
+    ('q=typeinput', '"', 'X'): ('qpetiktypeinput', 'ε', '"'),
     ('qpetiktypeinput', '"', '"'): ('qatrinput', '"', 'ε'),
     ('qpetiktypeinput', 'n', '"'): ('qnumberinput', 'ε', 'n'),
     ('qnumberinput', 'u', 'n'): ('qnumberinput', 'ε', 'u'),

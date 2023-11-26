@@ -106,7 +106,7 @@ states = {'qcomment','qcommentIN','endcomment','q0','qcek','qhead','endhtml','qa
           'qimg','qatrimg','qclassimg','qidimg','qpetikimg','qstyleimg', 'qatrsrcimg', 'qsrcimg', 'qaltimg', 'q=img',
           'qclasssrcimg','qidsrcimg','qpetiksrcimg','qstylesrcimg','qaltsrcimg', 'q=srcimg',
           'qbutton','endbutton','qatrbutton','qclassbutton','qidbutton','qpetikbutton','qstylebutton','q=typebutton', 'q=button', 'qsubmitbutton', 'qresetbutton', 'q=resetbutton','qbuttonbutton', 'qpetiktypebutton', 'qtypebutton',
-          'qform','qformIN','endform','qatrform','qclassform','qidform','qpetikform','qstyleform', 'qcekform', 'q=form', 'q=methodform','qactionform', 'qgetform', 'q=getform','qformform', 'qpetikmethod', 'qmethodform',
+          'qform','qformIN','endform','qatrform','qclassform','qidform','qpetikform','qstyleform', 'qcekform', 'q=form', 'q=methodform','qactionform', 'qgetform', 'q=getform','qformform', 'qpetikmethod', 'qmethodform','qpostform',
           'qinput','endinput','qatrinput','qclassinput','qidinput','qpetikinput','qstyleinput', 'q=input', 'q=typeinput', 'qnumberinput', 'qcheckboxinput', 'q=emailinput','qemailinput','qpasswordinput', 'qpetiktypeinput', 'qtypeinput',
           'qbr',
           'qem','qatrem','endem','qclassem','qstyleem','qidem','qcekem','qepetikem', 'qemIN',
@@ -1194,7 +1194,7 @@ transition = {
             ('qresetbutton','e','r') : ('qresetbutton' , 'ε','e'),
             ('qresetbutton','s','e') : ('q=resetbutton' , 'ε','ε'),
             ('q=resetbutton','e','e') : ('qresetbutton' , 'e','ε'),  
-            ('qresetbutton','t','t') : ('qpetiktypebutton' , 't','ε'),  
+            ('qresetbutton','t','r') : ('qpetiktypebutton' , 'r','ε'),  
             #==============================endbutton===============================
 
             #==============================form===============================
@@ -1266,7 +1266,7 @@ transition = {
 
             ('qpetikmethod','P','"') : ('qpostform' , 'ε','P'),
             ('qpostform','O','P') : ('qpostform' , 'ε','O'),
-            ('qpostform','S','O') : ('qpostform' , 'O','b'), 
+            ('qpostform','S','O') : ('qpostform' , 'O','ε'), 
             ('qpostform','T','P') : ('qpetikmethod' , 'P','ε'),
 
             ('qpetikmethod','G','"') : ('qgetform' , 'ε','G'),
