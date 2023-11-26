@@ -416,7 +416,7 @@ transition = {
     ('endem', 'm', 'm'): ('endem', 'm', '\u03B5'),
     ('endem', '>', 'e'): ('endem', 'e', '\u03B5'),
     ('endem', ' ', '<'): ('qcekbody', '<', '\u03B5'),
-    ('endem', ' ', 'P'): ('qcekp', 'P', '\u03B5'),
+    ('endem', ' ', 'P'): ('qpIN', 'P', '\u03B5'),
     ('endem', ' ', 'S'): ('qceksmall', 'S', '\u03B5'),
     ('endem', ' ', 'T'): ('qcekstrong', 'T', '\u03B5'),
     ('endem', ' ', 'F'): ('qformIN', 'F', '\u03B5'),
